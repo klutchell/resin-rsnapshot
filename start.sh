@@ -2,6 +2,7 @@
 
 id_rsa_key="/data/keys/id_rsa"
 ssh_config_file="/root/.ssh/config"
+cron_file="/etc/cron.d/rsnapshot"
 
 make_secure_dir()
 {
@@ -37,8 +38,7 @@ cp "/usr/src/app/rsnapshot.conf" "/etc/rsnapshot.conf"
 [ -n "${BACKUP_POINT_9}" ] && echo "${BACKUP_POINT_9}" | sed 's/ \+/\t/g' >> "/etc/rsnapshot.conf"
 
 echo "scheduling cron jobs..."
-echo "0 */4 * * * /usr/src/app/job.sh alpha" | crontab
-echo "30 30 * * * /usr/src/app/job.sh beta" | crontab
-echo "0 3 * * 1 /usr/src/app/job.sh gamma" | crontab
-echo "30 2 1 * * /usr/src/app/job.sh delta" | crontab
-crontab -l
+echo "0 */4 * * * root /usr/src/app/job.sh alpha" > "${cron_file}"
+echo "30 30 * * * root /usr/src/app/job.sh beta" >> "${cron_file}"
+echo "0 3 * * 1 root /usr/src/app/job.sh gamma" >> "${cron_file}"
+echo "30 2 1 * * root /usr/src/app/job.sh delta" >> "${cron_file}"
