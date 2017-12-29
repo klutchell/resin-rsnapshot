@@ -5,7 +5,7 @@ ssh_config_file="/root/.ssh/config"
 
 make_secure_dir()
 {
-	[ ! d "${1}" ] && mkdir "${1}" && chmod 700 "${1}"
+	[ ! -e "${1}" ] && mkdir "${1}" && chmod 700 "${1}"
 }
 
 if [ ! -f "${id_rsa_key}" ]
