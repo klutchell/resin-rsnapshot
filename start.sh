@@ -1,15 +1,26 @@
 #!/bin/bash
 
 id_rsa_key="/data/keys/id_rsa"
+ssh_config_file="/root/.ssh/config"
+
+make_secure_dir()
+{
+	[ ! d "${1}" ] && mkdir "${1}" && chmod 700 "${1}"
+}
 
 if [ ! -f "${id_rsa_key}" ]
 then
 	echo "generating ssh key..."
-	mkdir "$(dirname "${id_rsa_key}")" && chmod 700 "$(dirname "${id_rsa_key}")"
+	make_secure_dir "$(dirname "${id_rsa_key}")"
 	ssh-keygen -q -t "rsa" -N '' -f "${id_rsa_key}"
 fi
 
-echo "public key data (add to remote user authorized_keys):"
+make_secure_dir "$(dirname "${ssh_config_file}")"
+echo "Host remotehost-rsnapshot" > "${ssh_config_file}"
+echo "Hostname *" >> "${ssh_config_file}"
+echo "IdentityFile ${id_rsa_key}" >> "${ssh_config_file}"
+
+echo "public key data (add to remote host authorized_keys):"
 cat "${id_rsa_key}.pub"
 
 echo "writing rsnapshot config..."
