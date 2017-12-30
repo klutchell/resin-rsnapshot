@@ -45,7 +45,7 @@ chmod 755 "${rsnapshot_conf_file}"
 [ -n "${BACKUP_POINT_8}" ] && spaces_to_tabs "${BACKUP_POINT_8}" >> "${rsnapshot_conf_file}"
 [ -n "${BACKUP_POINT_9}" ] && spaces_to_tabs "${BACKUP_POINT_9}" >> "${rsnapshot_conf_file}"
 
-/usr/bin/rsnapshot configtest
+/usr/bin/rsnapshot configtest || exit 1
 
 echo "configuring cron..."
 cp "/usr/src/app/rsnapshot.cron" "${cron_file}"
@@ -56,3 +56,5 @@ do
 	curl "https://cronexpressiondescriptor.azurewebsites.net/api/descriptor/?expression=${exp}&locale=en-US"
 	echo
 done
+
+echo "cron ready" && exit 0
