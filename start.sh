@@ -25,12 +25,14 @@ fi
 echo "configuring ssh..."
 make_secure_dir "$(dirname "${ssh_conf_file}")"
 cp "/usr/src/app/ssh.conf" "${ssh_conf_file}"
+chmod 700 "${ssh_conf_file}"
 
 echo "run this command on remote hosts:"
-echo "'echo \"$(cat "${id_rsa_key}.pub")\" >> ~/.ssh/authorized_keys'"
+echo "echo '$(cat "${id_rsa_key}.pub")' >> ~/.ssh/authorized_keys"
 
 echo "configuring rsnapshot..."
 cp "/usr/src/app/rsnapshot.conf" "${rsnapshot_conf_file}"
+chmod 755 "${rsnapshot_conf_file}"
 
 [ -n "${BACKUP_POINT_0}" ] && spaces_to_tabs "${BACKUP_POINT_0}" >> "${rsnapshot_conf_file}"
 [ -n "${BACKUP_POINT_1}" ] && spaces_to_tabs "${BACKUP_POINT_1}" >> "${rsnapshot_conf_file}"
@@ -47,3 +49,5 @@ cp "/usr/src/app/rsnapshot.conf" "${rsnapshot_conf_file}"
 
 echo "configuring cron..."
 cp "/usr/src/app/rsnapshot.cron" "${cron_file}"
+chmod 755 "${cron_file}"
+# /usr/src/app/human-cron.sh "${cron_file}"
