@@ -2,7 +2,7 @@
 
 id_rsa_key="/data/keys/id_rsa"
 ssh_conf_file="/root/.ssh/config"
-rsnapshot_conf_file="/etc/rsnapshot.conf"
+rsnapshot_conf_file="/data/rsnapshot.conf"
 cron_file="/etc/cron.d/rsnapshot"
 
 make_secure_dir()
@@ -30,22 +30,32 @@ chmod 700 "${ssh_conf_file}"
 echo "run this command on remote hosts:"
 echo "echo '$(cat "${id_rsa_key}.pub")' >> ~/.ssh/authorized_keys"
 
-echo "configuring rsnapshot..."
-cp "/usr/src/app/rsnapshot.conf" "${rsnapshot_conf_file}"
-chmod 755 "${rsnapshot_conf_file}"
+rsnapshot_conf_required=false
 
-[ -n "${BACKUP_POINT_0}" ] && spaces_to_tabs "${BACKUP_POINT_0}" >> "${rsnapshot_conf_file}"
-[ -n "${BACKUP_POINT_1}" ] && spaces_to_tabs "${BACKUP_POINT_1}" >> "${rsnapshot_conf_file}"
-[ -n "${BACKUP_POINT_2}" ] && spaces_to_tabs "${BACKUP_POINT_2}" >> "${rsnapshot_conf_file}"
-[ -n "${BACKUP_POINT_3}" ] && spaces_to_tabs "${BACKUP_POINT_3}" >> "${rsnapshot_conf_file}"
-[ -n "${BACKUP_POINT_4}" ] && spaces_to_tabs "${BACKUP_POINT_4}" >> "${rsnapshot_conf_file}"
-[ -n "${BACKUP_POINT_5}" ] && spaces_to_tabs "${BACKUP_POINT_5}" >> "${rsnapshot_conf_file}"
-[ -n "${BACKUP_POINT_6}" ] && spaces_to_tabs "${BACKUP_POINT_6}" >> "${rsnapshot_conf_file}"
-[ -n "${BACKUP_POINT_7}" ] && spaces_to_tabs "${BACKUP_POINT_7}" >> "${rsnapshot_conf_file}"
-[ -n "${BACKUP_POINT_8}" ] && spaces_to_tabs "${BACKUP_POINT_8}" >> "${rsnapshot_conf_file}"
-[ -n "${BACKUP_POINT_9}" ] && spaces_to_tabs "${BACKUP_POINT_9}" >> "${rsnapshot_conf_file}"
+/usr/bin/rsnapshot -c "${rsnapshot_conf_file}" configtest || rsnapshot_conf_required=true
 
-/usr/bin/rsnapshot configtest || exit 1
+if [ "${rsnapshot_conf_required}" == false ]
+then
+	for var in $(compgen -A variable | grep "BACKUP_POINT_")
+	do
+		[ -n "$(eval "echo ${var}")" ] && rsnapshot_conf_required=true
+	done
+fi
+
+if [ "${rsnapshot_conf_required}" == true ]
+then
+	echo "configuring rsnapshot..."
+	cp "/usr/src/app/rsnapshot.conf" "${rsnapshot_conf_file}"
+
+	for var in $(compgen -A variable | grep "BACKUP_POINT_")
+	do
+		[ -n "$(eval "echo ${var}")" ] && spaces_to_tabs "$(eval "echo ${var}")" >> "${rsnapshot_conf_file}"
+	done
+
+	chmod 755 "${rsnapshot_conf_file}"
+fi
+
+/usr/bin/rsnapshot -c "${rsnapshot_conf_file}" configtest || exit 1
 
 echo "configuring cron..."
 cp "/usr/src/app/rsnapshot.cron" "${cron_file}"
