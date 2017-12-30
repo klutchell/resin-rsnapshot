@@ -6,15 +6,20 @@ based on https://github.com/resin-io-playground/cron-example
 
 ## Getting Started
 
-_tbd_
+https://docs.resin.io/raspberrypi3/nodejs/getting-started/#create-an-application
 
 ## Deployment
 
-_tbd_
+https://docs.resin.io/raspberrypi3/nodejs/getting-started/#deploy-code
 
 ## Usage
 
-_tbd_
+```bash
+# define backup points with the following syntax
+BACKUP_POINT_0="backup /home/	localhost/"
+BACKUP_POINT_1="backup /etc/	localhost/"
+BACKUP_POINT_2="backup /usr/local/	localhost/"
+```
 
 ## Author
 
