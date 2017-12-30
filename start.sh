@@ -60,9 +60,16 @@ fi
 echo "configuring cron..."
 cp -a "/usr/src/app/rsnapshot.cron" "${cron_file}"
 
-for exp in $(cat /etc/cron.d/rsnapshot | grep 'root' | awk '{print $1"+"$2"+"$3"+"$4"+"$5}')
+IFS=$'\n'
+for schedule in $(cat /etc/cron.d/rsnapshot | grep 'root')
 do
-	curl "https://cronexpressiondescriptor.azurewebsites.net/api/descriptor/?expression=${exp}&locale=en-US"; echo
+	exp="$(echo "${schedule}" | awk '{print $1"+"$2"+"$3"+"$4"+"$5}')"
+	user="$(echo "${schedule}" | awk '{print $6}')"
+	cmd="$(echo "${schedule}" | awk '{print $7}')"
+	param="$(echo "${schedule}" | awk '{print $8}')"
+	when="$(curl -s "https://cronexpressiondescriptor.azurewebsites.net/api/descriptor/?expression=${exp}&locale=en-US" | awk -F '"' '{print $4}')"
+	echo "+${param}: ${when}"
 done
+unset IFS
 
 echo "cron ready" && exit 0
