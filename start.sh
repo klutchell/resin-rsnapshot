@@ -50,4 +50,9 @@ chmod 755 "${rsnapshot_conf_file}"
 echo "configuring cron..."
 cp "/usr/src/app/rsnapshot.cron" "${cron_file}"
 chmod 755 "${cron_file}"
-# /usr/src/app/human-cron.sh "${cron_file}"
+
+for exp in $(cat /etc/cron.d/rsnapshot | grep 'root' | awk '{print $1"+"$2"+"$3"+"$4"+"$5}')
+do
+	curl "https://cronexpressiondescriptor.azurewebsites.net/api/descriptor/?expression=${exp}&locale=en-US"
+	echo
+done
