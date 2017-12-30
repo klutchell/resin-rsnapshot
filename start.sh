@@ -10,6 +10,11 @@ make_secure_dir()
 	[ ! -e "${1}" ] && mkdir "${1}" && chmod 700 "${1}"
 }
 
+spaces_to_tabs()
+{
+	echo "${1}" | sed 's/ \+/\t/g'
+}
+
 if [ ! -f "${id_rsa_key}" ]
 then
 	echo "generating ssh key..."
@@ -18,8 +23,8 @@ then
 fi
 
 echo "configuring ssh..."
-make_secure_dir "$(dirname "${ssh_config_file}")"
-cp "/usr/src/app/ssh.conf" "${ssh_config_file}"
+make_secure_dir "$(dirname "${ssh_conf_file}")"
+cp "/usr/src/app/ssh.conf" "${ssh_conf_file}"
 
 echo "run this command on remote hosts:"
 echo "'echo \"$(cat "${id_rsa_key}.pub")\" >> ~/.ssh/authorized_keys'"
@@ -27,16 +32,16 @@ echo "'echo \"$(cat "${id_rsa_key}.pub")\" >> ~/.ssh/authorized_keys'"
 echo "configuring rsnapshot..."
 cp "/usr/src/app/rsnapshot.conf" "${rsnapshot_conf_file}"
 
-[ -n "${BACKUP_POINT_0}" ] && echo "${BACKUP_POINT_0}" | sed 's/ \+/\t/g' >> "${rsnapshot_conf_file}"
-[ -n "${BACKUP_POINT_1}" ] && echo "${BACKUP_POINT_1}" | sed 's/ \+/\t/g' >> "${rsnapshot_conf_file}"
-[ -n "${BACKUP_POINT_2}" ] && echo "${BACKUP_POINT_2}" | sed 's/ \+/\t/g' >> "${rsnapshot_conf_file}"
-[ -n "${BACKUP_POINT_3}" ] && echo "${BACKUP_POINT_3}" | sed 's/ \+/\t/g' >> "${rsnapshot_conf_file}"
-[ -n "${BACKUP_POINT_4}" ] && echo "${BACKUP_POINT_4}" | sed 's/ \+/\t/g' >> "${rsnapshot_conf_file}"
-[ -n "${BACKUP_POINT_5}" ] && echo "${BACKUP_POINT_5}" | sed 's/ \+/\t/g' >> "${rsnapshot_conf_file}"
-[ -n "${BACKUP_POINT_6}" ] && echo "${BACKUP_POINT_6}" | sed 's/ \+/\t/g' >> "${rsnapshot_conf_file}"
-[ -n "${BACKUP_POINT_7}" ] && echo "${BACKUP_POINT_7}" | sed 's/ \+/\t/g' >> "${rsnapshot_conf_file}"
-[ -n "${BACKUP_POINT_8}" ] && echo "${BACKUP_POINT_8}" | sed 's/ \+/\t/g' >> "${rsnapshot_conf_file}"
-[ -n "${BACKUP_POINT_9}" ] && echo "${BACKUP_POINT_9}" | sed 's/ \+/\t/g' >> "${rsnapshot_conf_file}"
+[ -n "${BACKUP_POINT_0}" ] && spaces_to_tabs "${BACKUP_POINT_0}" >> "${rsnapshot_conf_file}"
+[ -n "${BACKUP_POINT_1}" ] && spaces_to_tabs "${BACKUP_POINT_1}" >> "${rsnapshot_conf_file}"
+[ -n "${BACKUP_POINT_2}" ] && spaces_to_tabs "${BACKUP_POINT_2}" >> "${rsnapshot_conf_file}"
+[ -n "${BACKUP_POINT_3}" ] && spaces_to_tabs "${BACKUP_POINT_3}" >> "${rsnapshot_conf_file}"
+[ -n "${BACKUP_POINT_4}" ] && spaces_to_tabs "${BACKUP_POINT_4}" >> "${rsnapshot_conf_file}"
+[ -n "${BACKUP_POINT_5}" ] && spaces_to_tabs "${BACKUP_POINT_5}" >> "${rsnapshot_conf_file}"
+[ -n "${BACKUP_POINT_6}" ] && spaces_to_tabs "${BACKUP_POINT_6}" >> "${rsnapshot_conf_file}"
+[ -n "${BACKUP_POINT_7}" ] && spaces_to_tabs "${BACKUP_POINT_7}" >> "${rsnapshot_conf_file}"
+[ -n "${BACKUP_POINT_8}" ] && spaces_to_tabs "${BACKUP_POINT_8}" >> "${rsnapshot_conf_file}"
+[ -n "${BACKUP_POINT_9}" ] && spaces_to_tabs "${BACKUP_POINT_9}" >> "${rsnapshot_conf_file}"
 
 /usr/bin/rsnapshot configtest
 
