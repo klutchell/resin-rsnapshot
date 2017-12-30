@@ -36,7 +36,7 @@ rsnapshot_conf_required=false
 /usr/bin/rsnapshot -c "${rsnapshot_conf_file}" configtest || rsnapshot_conf_required=true
 
 # if any variable similar to BACKUP_POINT_ is set...
-for var in $(compgen -A variable | grep "BACKUP_POINT_")
+for var in $(compgen -A variable | grep "^BACKUP_POINT_")
 do
 	[ -n "$(eval "echo \$${var}")" ] && rsnapshot_conf_required=true
 done
@@ -46,7 +46,7 @@ then
 	echo "configuring rsnapshot..."
 	cp "/usr/src/app/rsnapshot.conf" "${rsnapshot_conf_file}"
 
-	for var in $(compgen -A variable | grep "BACKUP_POINT_")
+	for var in $(compgen -A variable | grep "^BACKUP_POINT_")
 	do
 		if [ -n "$(eval "echo \$${var}")" ]
 		then

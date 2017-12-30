@@ -19,6 +19,10 @@ https://docs.resin.io/raspberrypi3/nodejs/getting-started/#deploy-code
 BACKUP_POINT_0="backup /home/	localhost/"
 BACKUP_POINT_1="backup /etc/	localhost/"
 BACKUP_POINT_2="backup /usr/local/	localhost/"
+
+# there is no limit to the number of backup points
+# as long as they start with BACKUP_POINT_ and
+# are formatted correctly with 3 fields separated by tabs
 ```
 
 ## Author
