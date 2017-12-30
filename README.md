@@ -8,16 +8,19 @@ https://docs.resin.io/raspberrypi3/nodejs/getting-started
 
 ## Deployment
 
-Define backup points with the following syntax:
+Define additional rsnapshot.conf entries with the following syntax:
 ```bash
-BACKUP_POINT_0="backup /home/	localhost/"
-BACKUP_POINT_1="backup /etc/	localhost/"
-BACKUP_POINT_2="backup /usr/local/	localhost/"
+# Example 1:
+RSNAPSHOT_CONF_0="backup	/home/	localhost/"
+RSNAPSHOT_CONF_1="backup	/etc/	localhost/"
+RSNAPSHOT_CONF_2="backup	/usr/local/	localhost/"
+RSNAPSHOT_CONF_3="exclude	mediaserver/plex/media"
+RSNAPSHOT_CONF_4="exclude	mediaserver/nzbget/downloads"
 ```
 
-There is no limit to the number of backup points
-as long as they start with BACKUP_POINT_ and
-are formatted as 3 fields separated by tabs.
+There is no limit to the number of additional config entries
+as long as they start with RSNAPSHOT_CONF_ and all fields
+are separated by tabs.
 
 ## Usage
 

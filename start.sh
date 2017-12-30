@@ -34,8 +34,8 @@ rsnapshot_conf_required=false
 # if rsnapshot.conf does not exist or is not sane...
 /usr/bin/rsnapshot -c "${rsnapshot_conf_file}" configtest || rsnapshot_conf_required=true
 
-# if any variable similar to BACKUP_POINT_ is set...
-for var in $(compgen -A variable | grep "^BACKUP_POINT_")
+# if any variable similar to RSNAPSHOT_CONF_ is set...
+for var in $(compgen -A variable | grep "^RSNAPSHOT_CONF_")
 do
 	[ -n "$(eval "echo \$${var}")" ] && rsnapshot_conf_required=true
 done
@@ -45,7 +45,7 @@ then
 	echo "configuring rsnapshot..."
 	cp -a "/usr/src/app/rsnapshot.conf" "${rsnapshot_conf_file}"
 
-	for var in $(compgen -A variable | grep "^BACKUP_POINT_")
+	for var in $(compgen -A variable | grep "^RSNAPSHOT_CONF_")
 	do
 		if [ -n "$(eval "echo \$${var}")" ]
 		then
