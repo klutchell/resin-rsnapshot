@@ -12,7 +12,7 @@ make_secure_dir()
 
 spaces_to_tabs()
 {
-	echo "${1}" | sed 's/ \+/\t/g'
+	echo "${1}" | sed 's/ \+ /\t/g'
 }
 
 if [ ! -f "${id_rsa_key}" ]

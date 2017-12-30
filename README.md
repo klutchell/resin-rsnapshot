@@ -8,19 +8,20 @@ https://docs.resin.io/raspberrypi3/nodejs/getting-started
 
 ## Deployment
 
-Define additional rsnapshot.conf entries with the following syntax:
+Define additional rsnapshot config entries with the following syntax:
 ```bash
 # Example 1:
-RSNAPSHOT_CONF_0="backup	/home/	localhost/"
-RSNAPSHOT_CONF_1="backup	/etc/	localhost/"
-RSNAPSHOT_CONF_2="backup	/usr/local/	localhost/"
-RSNAPSHOT_CONF_3="exclude	mediaserver/plex/media"
-RSNAPSHOT_CONF_4="exclude	mediaserver/nzbget/downloads"
+RSNAPSHOT_CONF_0="backup  /home/  localhost/"
+RSNAPSHOT_CONF_1="backup  /etc/  localhost/"
+RSNAPSHOT_CONF_2="backup  /usr/local/  localhost/"
+RSNAPSHOT_CONF_3="exclude  media/movies"
+RSNAPSHOT_CONF_4="exclude  media/tv"
 ```
 
-There is no limit to the number of additional config entries
-as long as they start with RSNAPSHOT_CONF_ and all fields
-are separated by tabs.
+Any environment variable starting with `RSNAPSHOT_CONF_` will
+be appended to the default `rsnapshot.conf` file.
+
+_fields must be separated by multiple spaces_
 
 ## Usage
 
