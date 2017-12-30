@@ -24,8 +24,7 @@ fi
 
 echo "configuring ssh..."
 make_secure_dir "$(dirname "${ssh_conf_file}")"
-cp "/usr/src/app/ssh.conf" "${ssh_conf_file}"
-chmod 700 "${ssh_conf_file}"
+cp -a "/usr/src/app/ssh.conf" "${ssh_conf_file}"
 
 echo "run this command on remote hosts:"
 echo "echo '$(cat "${id_rsa_key}.pub")' >> ~/.ssh/authorized_keys"
@@ -44,7 +43,7 @@ done
 if [ "${rsnapshot_conf_required}" == true ]
 then
 	echo "configuring rsnapshot..."
-	cp "/usr/src/app/rsnapshot.conf" "${rsnapshot_conf_file}"
+	cp -a "/usr/src/app/rsnapshot.conf" "${rsnapshot_conf_file}"
 
 	for var in $(compgen -A variable | grep "^BACKUP_POINT_")
 	do
@@ -54,15 +53,12 @@ then
 			spaces_to_tabs "$(eval "echo \$${var}")" >> "${rsnapshot_conf_file}"
 		fi
 	done
-
-	chmod 755 "${rsnapshot_conf_file}"
 fi
 
 /usr/bin/rsnapshot -c "${rsnapshot_conf_file}" configtest || exit 1
 
 echo "configuring cron..."
-cp "/usr/src/app/rsnapshot.cron" "${cron_file}"
-chmod 755 "${cron_file}"
+cp -a "/usr/src/app/rsnapshot.cron" "${cron_file}"
 
 for exp in $(cat /etc/cron.d/rsnapshot | grep 'root' | awk '{print $1"+"$2"+"$3"+"$4"+"$5}')
 do
