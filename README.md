@@ -21,7 +21,7 @@ RSNAPSHOT_CONF_4="exclude  media/tv"
 Any environment variable starting with `RSNAPSHOT_CONF_` will
 be appended to the default `rsnapshot.conf` file.
 
-_fields must be separated by multiple spaces_
+_spaces are converted to tabs automatically so avoid where possible_
 
 ## Usage
 
