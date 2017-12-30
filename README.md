@@ -2,27 +2,39 @@
 
 resin.io rsnapshot application
 
-based on https://github.com/resin-io-playground/cron-example
-
 ## Getting Started
 
-https://docs.resin.io/raspberrypi3/nodejs/getting-started/#create-an-application
+https://docs.resin.io/raspberrypi3/nodejs/getting-started
 
 ## Deployment
 
-https://docs.resin.io/raspberrypi3/nodejs/getting-started/#deploy-code
-
-## Usage
-
+Define backup points with the following syntax:
 ```bash
-# define backup points with the following syntax
 BACKUP_POINT_0="backup /home/	localhost/"
 BACKUP_POINT_1="backup /etc/	localhost/"
 BACKUP_POINT_2="backup /usr/local/	localhost/"
+```
 
-# there is no limit to the number of backup points
-# as long as they start with BACKUP_POINT_ and
-# are formatted correctly with 3 fields separated by tabs
+There is no limit to the number of backup points
+as long as they start with BACKUP_POINT_ and
+are formatted as 3 fields separated by tabs.
+
+## Usage
+
+The default backup levels are defined by `rsnapshot.conf`:
+```
+retain	alpha	6
+retain	beta	7
+retain	gamma	4
+retain	delta	3
+```
+
+The default cron schedules are defined by `rsnapshot.cron`:
+```
+alpha:	Every 4 hours
+beta:	At 03:30 AM
+gamma:	At 03:00 AM, only on Monday
+delta:	At 02:30 AM, on day 1 of the month
 ```
 
 ## Author
@@ -35,4 +47,4 @@ _tbd_
 
 ## Acknowledgments
 
-_tbd_
+* https://github.com/resin-io-playground/cron-example

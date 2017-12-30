@@ -62,8 +62,7 @@ cp -a "/usr/src/app/rsnapshot.cron" "${cron_file}"
 
 for exp in $(cat /etc/cron.d/rsnapshot | grep 'root' | awk '{print $1"+"$2"+"$3"+"$4"+"$5}')
 do
-	curl "https://cronexpressiondescriptor.azurewebsites.net/api/descriptor/?expression=${exp}&locale=en-US"
-	echo
+	curl "https://cronexpressiondescriptor.azurewebsites.net/api/descriptor/?expression=${exp}&locale=en-US"; echo
 done
 
 echo "cron ready" && exit 0
