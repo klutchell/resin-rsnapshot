@@ -32,15 +32,14 @@ echo "echo '$(cat "${id_rsa_key}.pub")' >> ~/.ssh/authorized_keys"
 
 rsnapshot_conf_required=false
 
+# if rsnapshot.conf does not exist or is not sane...
 /usr/bin/rsnapshot -c "${rsnapshot_conf_file}" configtest || rsnapshot_conf_required=true
 
-if [ "${rsnapshot_conf_required}" == false ]
-then
-	for var in $(compgen -A variable | grep "BACKUP_POINT_")
-	do
-		[ -n "$(eval "echo ${var}")" ] && rsnapshot_conf_required=true
-	done
-fi
+# if any variable similar to BACKUP_POINT_ is set...
+for var in $(compgen -A variable | grep "BACKUP_POINT_")
+do
+	[ -n "$(eval "echo \$${var}")" ] && rsnapshot_conf_required=true
+done
 
 if [ "${rsnapshot_conf_required}" == true ]
 then
@@ -49,7 +48,11 @@ then
 
 	for var in $(compgen -A variable | grep "BACKUP_POINT_")
 	do
-		[ -n "$(eval "echo ${var}")" ] && spaces_to_tabs "$(eval "echo ${var}")" >> "${rsnapshot_conf_file}"
+		if [ -n "$(eval "echo \$${var}")" ]
+		then
+			eval "echo \$${var}"
+			spaces_to_tabs "$(eval "echo \$${var}")" >> "${rsnapshot_conf_file}"
+		fi
 	done
 
 	chmod 755 "${rsnapshot_conf_file}"
