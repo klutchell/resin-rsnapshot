@@ -49,7 +49,7 @@ then
 	do
 		if [ -n "$(eval "echo \$${var}")" ]
 		then
-			eval "echo \$${var}"
+			eval "echo +\$${var}"
 			spaces_to_tabs "$(eval "echo \$${var}")" >> "${rsnapshot_conf_file}"
 		fi
 	done
