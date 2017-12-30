@@ -14,7 +14,7 @@ make_secure_dir()
 # replace one or more spaces with a single tab
 spaces_to_tabs()
 {
-	echo "${1// \+/\t}"
+	echo "${1}" | sed 's| \+|\t|g'
 }
 
 # generate ssh key if one does not exist
@@ -29,6 +29,7 @@ fi
 echo "configuring ssh..."
 make_secure_dir "$(dirname "${ssh_conf_file}")"
 cp -a "/usr/src/app/ssh.conf" "${ssh_conf_file}"
+cp -a "${id_rsa_key}"* "/root/.ssh/"
 
 # print the command to add this public key to remote hosts
 echo "run this command on remote hosts:"
