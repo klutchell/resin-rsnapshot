@@ -1,9 +1,5 @@
-# This is a sample cron file for rsnapshot.
-# The values used correspond to the examples in /etc/rsnapshot.conf.
-# There you can also set the backup points and many other things.
 
  0 */4  * * *   root   /usr/src/app/job.sh alpha
  30 3   * * *   root   /usr/src/app/job.sh beta
  0  3   * * 1   root   /usr/src/app/job.sh gamma
  30 2   1 * *   root   /usr/src/app/job.sh delta
- 
