@@ -1,15 +1,7 @@
 #!/bin/bash
 
-id_rsa_key="/data/keys/id_rsa"
-ssh_conf_file="/root/.ssh/config"
+ssh_keys_dir="/data/keys"
 rsnapshot_conf_file="/data/rsnapshot.conf"
-cron_file="/etc/cron.d/rsnapshot"
-
-# if dir does not exist, create it and set user-only perms
-make_secure_dir()
-{
-	[ ! -e "${1}" ] && mkdir "${1}" && chmod 700 "${1}"
-}
 
 # replace one or more spaces with a single tab
 spaces_to_tabs()
@@ -17,23 +9,27 @@ spaces_to_tabs()
 	echo "${1}" | sed 's| \+|\t|g'
 }
 
-make_secure_dir "$(dirname "${id_rsa_key}")"
-make_secure_dir "$(dirname "${ssh_conf_file}")"
+# create secure directory for ssh keys
+if [ ! -d "${ssh_keys_dir}" ]
+then
+	mkdir -p "${ssh_keys_dir}"
+	chmod 700 "${ssh_keys_dir}"
+fi
 
 # generate ssh key if one does not exist
-if [ ! -f "${id_rsa_key}" ]
+if [ ! -f "${ssh_keys_dir}/id_rsa" ]
 then
 	echo "generating ssh key..."
-	ssh-keygen -q -t "rsa" -N '' -f "${id_rsa_key}"
+	ssh-keygen -q -t "rsa" -N '' -f "${ssh_keys_dir}/id_rsa"
 fi
 
 # install ssh config file that specifies which key to use for all hosts
 echo "configuring ssh..."
-cp -a "/usr/src/app/ssh.conf" "${ssh_conf_file}" && chmod 600 "${ssh_conf_file}"
+cp -a "/usr/src/app/ssh.conf" "/root/.ssh/config" && chmod 600 "/root/.ssh/config"
 
 # print the command to add this public key to remote hosts
 echo "run this command on remote hosts:"
-echo "echo '$(cat "${id_rsa_key}.pub")' >> ~/.ssh/authorized_keys"
+echo "echo '$(cat "${ssh_keys_dir}/id_rsa.pub")' >> ~/.ssh/authorized_keys"
 
 rsnapshot_conf_required=false
 
