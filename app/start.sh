@@ -63,12 +63,11 @@ echo "checking crontab..."
 # print cron schedules in human readable format
 while IFS=$'\n' read -r line
 do
-	user="$(echo "${line}" | awk '{print $6}')"
-	cmd="$(echo "${line}" | awk '{print $7}')"
-	level="$(echo "${line}" | awk '{print $8}')"
 	exp="$(echo "${line}" | awk '{print $1"+"$2"+"$3"+"$4"+"$5}')"
+	cmd="$(echo "${line}" | awk '{print $6}')"
+	level="$(echo "${line}" | awk '{print $7}')"
 
-	[ "${user}+${cmd}" == "root+/usr/src/app/job.sh" ] || continue
+	[ "${cmd}" == "/usr/src/app/job.sh" ] || continue
 
 	sched="$(curl -s "https://cronexpressiondescriptor.azurewebsites.net/api/descriptor/?expression=${exp}&locale=en-US" | awk -F '"' '{print $4}')"
 
