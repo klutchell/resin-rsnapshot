@@ -68,7 +68,7 @@ fi
 
 # install cron.d file
 echo "configuring cron..."
-cp -a "/usr/src/app/rsnapshot.cron" "${cron_file}"
+crontab "/usr/src/app/rsnapshot.cron"
 
 # print cron schedules in human readable format
 while IFS=$'\n' read -r line
@@ -83,6 +83,6 @@ do
 	sched="$(curl -s "https://cronexpressiondescriptor.azurewebsites.net/api/descriptor/?expression=${exp}&locale=en-US" | awk -F '"' '{print $4}')"
 
 	echo "+${level}: ${sched}"
-done < "${cron_file}"
+done < <(crontab -l)
 
 echo "cron ready" && exit 0
