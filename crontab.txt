@@ -1,4 +1,3 @@
-
 0 */4 * * *   root   /usr/src/app/job.sh alpha
 30 3  * * *   root   /usr/src/app/job.sh beta
 0 3   * * 1   root   /usr/src/app/job.sh gamma

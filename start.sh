@@ -4,10 +4,7 @@ ssh_keys_dir="/data/keys"
 rsnapshot_conf_file="/data/rsnapshot.conf"
 
 # replace one or more spaces with a single tab
-spaces_to_tabs()
-{
-	echo "${1}" | sed 's| \+|\t|g'
-}
+spaces_to_tabs()	{ echo "${1}" | sed 's| \+|\t|g' ; }
 
 # create secure directory for ssh keys
 if [ ! -d "${ssh_keys_dir}" ]
@@ -22,10 +19,6 @@ then
 	echo "generating ssh key..."
 	ssh-keygen -q -t "rsa" -N '' -f "${ssh_keys_dir}/id_rsa"
 fi
-
-# install ssh config file that specifies which key to use for all hosts
-echo "configuring ssh..."
-cp -a "/usr/src/app/ssh.conf" "/root/.ssh/config" && chmod 600 "/root/.ssh/config"
 
 # print the command to add this public key to remote hosts
 echo "run this command on remote hosts:"
@@ -63,8 +56,7 @@ fi
 /usr/bin/rsnapshot -c "${rsnapshot_conf_file}" configtest || exit 1
 
 # install cron.d file
-echo "configuring cron..."
-crontab "/usr/src/app/rsnapshot.cron"
+echo "checking crontab..."
 
 # print cron schedules in human readable format
 while IFS=$'\n' read -r line
@@ -81,4 +73,4 @@ do
 	echo "+${level}: ${sched}"
 done < <(crontab -l)
 
-echo "cron ready" && exit 0
+echo "ready" && exit 0
