@@ -18,8 +18,9 @@ RSNAPSHOT_CONF_3="exclude  media/movies"
 RSNAPSHOT_CONF_4="exclude  media/tv"
 ```
 
-* any environment variable matching `RSNAPSHOT_CONF_` will be appended to `rsnapshot.conf`
-* avoid spaces except between values
+Any environment variable matching `RSNAPSHOT_CONF_` will be appended to `rsnapshot.conf`
+
+_avoid spaces except as a delimiter_
 
 The default backup levels are defined by `rsnapshot.conf`:
 ```
@@ -29,7 +30,7 @@ retain	gamma	4
 retain	delta	3
 ```
 
-The default cron schedules are defined by `rsnapshot.cron`:
+The default cron schedules are defined by `crontab.txt`:
 ```
 alpha:	Every 4 hours
 beta:	At 03:30 AM
