@@ -4,7 +4,7 @@ resin.io rsnapshot application
 
 ## Getting Started
 
-* https://docs.resin.io/raspberrypi3/nodejs/getting-started
+https://docs.resin.io/raspberrypi3/nodejs/getting-started
 
 ## Deployment
 
@@ -18,10 +18,8 @@ RSNAPSHOT_CONF_3="exclude  media/movies"
 RSNAPSHOT_CONF_4="exclude  media/tv"
 ```
 
-Any environment variable starting with `RSNAPSHOT_CONF_` will
-be appended to the default `rsnapshot.conf` file.
-
-_avoid spaces in path names since spaces are converted to tabs for rsnapshot.conf_
+* any environment variable matching `RSNAPSHOT_CONF_` will be appended to `rsnapshot.conf`
+* avoid spaces except between values
 
 The default backup levels are defined by `rsnapshot.conf`:
 ```
@@ -41,7 +39,7 @@ delta:	At 02:30 AM, on day 1 of the month
 
 ## Usage
 
-* http://troy.jdmz.net/rsnapshot/
+http://troy.jdmz.net/rsnapshot/
 
 ## Author
 
