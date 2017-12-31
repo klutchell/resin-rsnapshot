@@ -21,6 +21,7 @@ then
 fi
 
 # print the command to add this public key to remote hosts
+echo "reading ssh key..."
 echo "run this command on remote hosts:"
 echo "echo '$(cat "${ssh_keys_dir}/id_rsa.pub")' >> ~/.ssh/authorized_keys"
 
@@ -38,7 +39,7 @@ done
 # rsnapshot configuration is required for one of the above two reasons
 if [ "${rsnapshot_conf_required}" == true ]
 then
-	echo "configuring rsnapshot..."
+	echo "installing rsnapshot.conf..."
 	cp -a "/usr/src/app/rsnapshot.conf" "${rsnapshot_conf_file}"
 
 	for var in $(compgen -A variable | grep "^RSNAPSHOT_CONF_")
@@ -53,6 +54,7 @@ then
 fi
 
 # test rsnapshot configuration syntax
+echo "checking rsnapshot.conf..."
 /usr/bin/rsnapshot -c "${rsnapshot_conf_file}" configtest || exit 1
 
 # install cron.d file
