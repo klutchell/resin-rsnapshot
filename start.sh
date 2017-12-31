@@ -17,18 +17,19 @@ spaces_to_tabs()
 	echo "${1}" | sed 's| \+|\t|g'
 }
 
+make_secure_dir "$(dirname "${id_rsa_key}")"
+make_secure_dir "$(dirname "${ssh_conf_file}")"
+
 # generate ssh key if one does not exist
 if [ ! -f "${id_rsa_key}" ]
 then
 	echo "generating ssh key..."
-	make_secure_dir "$(dirname "${id_rsa_key}")"
 	ssh-keygen -q -t "rsa" -N '' -f "${id_rsa_key}"
 fi
 
 # install ssh config file that specifies which key to use for all hosts
 echo "configuring ssh..."
-make_secure_dir "$(dirname "${ssh_conf_file}")"
-cp -a "/usr/src/app/ssh.conf" "${ssh_conf_file}"
+cp -a "/usr/src/app/ssh.conf" "${ssh_conf_file}" && chmod 600 "${ssh_conf_file}"
 
 # print the command to add this public key to remote hosts
 echo "run this command on remote hosts:"
