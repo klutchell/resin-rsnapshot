@@ -29,7 +29,6 @@ fi
 echo "configuring ssh..."
 make_secure_dir "$(dirname "${ssh_conf_file}")"
 cp -a "/usr/src/app/ssh.conf" "${ssh_conf_file}"
-cp -a "${id_rsa_key}"* "/root/.ssh/"
 
 # print the command to add this public key to remote hosts
 echo "run this command on remote hosts:"
