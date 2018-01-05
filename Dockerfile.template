@@ -1,4 +1,4 @@
-FROM resin/%%RESIN_MACHINE_NAME%%-debian
+FROM resin/%%RESIN_MACHINE_NAME%%-debian:latest
 
 ENV INITSYSTEM on
 
@@ -12,10 +12,12 @@ RUN apt-get update && apt-get install -yq --no-install-recommends \
 # configure outbound ssh:
 # + IdentityFile /data/.ssh/id_rsa
 # + StrictHostKeyChecking no
+# + UserKnownHostsFile /dev/null
 RUN sed -i \
-    -e 's|# IdentityFile.*|IdentityFile\ /data/.ssh/id_rsa|' \
-    -e 's|# StrictHostKeyChecking.*|StrictHostKeyChecking\ no|' \
-    /etc/ssh/ssh_config
+    -e 's|#   IdentityFile.*|    IdentityFile\ /data/.ssh/id_rsa|' \
+    -e 's|#   StrictHostKeyChecking.*|    StrictHostKeyChecking\ no|' \
+    /etc/ssh/ssh_config \
+    && echo '    UserKnownHostsFile /dev/null' >> /etc/ssh/ssh_config
 
 WORKDIR /usr/src/app
 
