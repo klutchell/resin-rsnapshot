@@ -1,29 +1,29 @@
 #!/bin/bash
 
-ssh_keys_dir="/data/keys"
+ssh_config_dir="/data/.ssh"
 rsnapshot_conf_file="/data/rsnapshot.conf"
 
 # replace one or more spaces with a single tab
 spaces_to_tabs()	{ echo "${1}" | sed 's| \+|\t|g' ; }
 
-# create secure directory for ssh keys
-if [ ! -d "${ssh_keys_dir}" ]
+# create secure directory for ssh config if it does not exist
+if [ ! -d "${ssh_config_dir}" ]
 then
-	mkdir -p "${ssh_keys_dir}"
-	chmod 700 "${ssh_keys_dir}"
+	mkdir -p "${ssh_config_dir}"
+	chmod 700 "${ssh_config_dir}"
 fi
 
 # generate ssh key if one does not exist
-if [ ! -f "${ssh_keys_dir}/id_rsa" ]
+if [ ! -f "${ssh_config_dir}/id_rsa" ]
 then
 	echo "generating ssh key..."
-	ssh-keygen -q -t "rsa" -N '' -f "${ssh_keys_dir}/id_rsa"
+	ssh-keygen -q -t "rsa" -N '' -f "${ssh_config_dir}/id_rsa"
 fi
 
 # print the command to add this public key to remote hosts
 echo "reading ssh key..."
 echo "run this command on remote hosts:"
-echo "echo '$(cat "${ssh_keys_dir}/id_rsa.pub")' >> ~/.ssh/authorized_keys"
+echo "echo '$(cat "${ssh_config_dir}/id_rsa.pub")' >> ~/.ssh/authorized_keys"
 
 rsnapshot_conf_required=false
 
