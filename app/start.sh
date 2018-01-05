@@ -1,17 +1,16 @@
 #!/bin/bash
 
-ssh_config_dir="/data/.ssh"
-rsnapshot_conf_file="/data/rsnapshot.conf"
+readonly ssh_config_dir="/data/.ssh"
+readonly rsnapshot_conf_file="/data/rsnapshot.conf"
 
 # replace one or more spaces with a single tab
 spaces_to_tabs()	{ echo "${1}" | sed 's| \+|\t|g' ; }
 
-# create secure directory for ssh config if it does not exist
-if [ ! -d "${ssh_config_dir}" ]
-then
-	mkdir -p "${ssh_config_dir}"
-	chmod 700 "${ssh_config_dir}"
-fi
+# create ssh config dir if it does not exist
+mkdir -p "${ssh_config_dir}" 2>/dev/null || true
+
+# set permissions on ssh config dir
+chmod -R 700 "${ssh_config_dir}"
 
 # generate ssh key if one does not exist
 if [ ! -f "${ssh_config_dir}/id_rsa" ]
