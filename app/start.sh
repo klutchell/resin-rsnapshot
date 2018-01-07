@@ -56,4 +56,19 @@ fi
 echo "checking rsnapshot.conf..."
 /usr/bin/rsnapshot -c "${rsnapshot_conf_file}" configtest || exit 1
 
+# print schedule in human readable format
+echo "checking cron..."
+while IFS=$'\n' read -r line
+do
+	exp="$(echo "${line}" | awk '{print $1"+"$2"+"$3"+"$4"+"$5}')"
+	cmd="$(echo "${line}" | awk '{print $6}')"
+	level="$(echo "${line}" | awk '{print $7}')"
+
+	[ "${cmd}" == "/usr/src/app/job.sh" ] || continue
+
+	sched="$(curl -s "https://cronexpressiondescriptor.azurewebsites.net/api/descriptor/?expression=${exp}&locale=en-US" | awk -F '"' '{print $4}')"
+
+	echo "+${level}: ${sched}"
+done < "/var/spool/cron/crontabs/rsnapshot"
+
 echo "ready" && exit 0
