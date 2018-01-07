@@ -25,4 +25,6 @@ WORKDIR /usr/src/app
 
 COPY /app ./
 
+RUN curl -sL https://raw.githubusercontent.com/rsnapshot/rsnapshot/master/utils/backup_smb_share.sh > backup_smb_share.sh.example
+
 CMD ["/bin/bash", "start.sh"]
