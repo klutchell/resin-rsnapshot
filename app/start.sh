@@ -69,7 +69,7 @@ do
 	sched="$(curl -s "https://cronexpressiondescriptor.azurewebsites.net/api/descriptor/?expression=${exp}&locale=en-US" | awk -F '"' '{print $4}')"
 
 	echo "+${level}: ${sched}"
-done < "/etc/crontabs/root"
+done < "/var/spool/cron/crontabs/root"
 
 if [ ! -f "/data/backup_smb_share.sh" ]
 then
