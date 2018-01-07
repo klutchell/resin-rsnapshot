@@ -11,11 +11,13 @@ https://docs.resin.io/raspberrypi3/nodejs/getting-started
 Define additional rsnapshot config entries with the following syntax:
 ```bash
 # Example 1:
-RSNAPSHOT_CONF_0="backup  /home/  localhost/"
-RSNAPSHOT_CONF_1="backup  /etc/  localhost/"
-RSNAPSHOT_CONF_2="backup  /usr/local/  localhost/"
-RSNAPSHOT_CONF_3="exclude  media/movies"
-RSNAPSHOT_CONF_4="exclude  media/tv"
+RSNAPSHOT_CONF_ex1="exclude media/movies"
+RSNAPSHOT_CONF_ex2="exclude media/tv"
+RSNAPSHOT_CONF_bak1="backup /home/ localhost/"
+RSNAPSHOT_CONF_bak2="backup /etc/ localhost/"
+RSNAPSHOT_CONF_bak3="backup /usr/local/ localhost/"
+RSNAPSHOT_CONF_bak4="backup_script /data/backup_smb_share.sh 192.168.86.102/"
+RSNAPSHOT_CONF_bak5="backup pi@192.168.86.101:/home/ 192.168.86.101/"
 ```
 
 Any environment variable matching `RSNAPSHOT_CONF_` will be appended to `rsnapshot.conf`
