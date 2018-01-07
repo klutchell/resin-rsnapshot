@@ -42,7 +42,11 @@ delta:	At 02:30 AM, on day 1 of the month
 
 ## Usage
 
-http://troy.jdmz.net/rsnapshot/
+http://rsnapshot.org/rsnapshot/docs/docbook/rest.html
+
+For samba access to the data dir go to `//<device-ip>/data`.
+
+The default credentials are `root:alpine`.
 
 ## Author
 
