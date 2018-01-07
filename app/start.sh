@@ -61,7 +61,7 @@ echo "checking cron..."
 # skip comment lines and whitespace lines
 grep -v '^\s*#' "/etc/crontabs/root" | grep -v '^\s*$' | while IFS=$'\n' read -r line
 do
-	cmd="$(echo "${line}" | awk '{$1=$2=$3=$4=$5=""; print $0}')"
+	cmd="$(echo "${line}" | awk '{$1=$2=$3=$4=$5=""; print $0}' | sed -e 's/^[ \t]*//')"
 	exp="$(echo "${line}" | awk '{print $1"+"$2"+"$3"+"$4"+"$5}')"
 
 	sched="$(curl -s "https://cronexpressiondescriptor.azurewebsites.net/api/descriptor/?expression=${exp}&locale=en-US" | awk -F '"' '{print $4}')"
