@@ -32,7 +32,7 @@ retain	gamma	4
 retain	delta	3
 ```
 
-The default cron schedules are defined by `crontab.txt`:
+The default cron schedules are defined by `cron.conf`:
 ```
 alpha:	Every 4 hours
 beta:	At 03:30 AM
