@@ -69,6 +69,6 @@ do
 	sched="$(curl -s "https://cronexpressiondescriptor.azurewebsites.net/api/descriptor/?expression=${exp}&locale=en-US" | awk -F '"' '{print $4}')"
 
 	echo "+${level}: ${sched}"
-done < "/var/spool/cron/crontabs/rsnapshot"
+done < "/etc/crontabs/root"
 
 supervisord -c /config/supervisord.conf

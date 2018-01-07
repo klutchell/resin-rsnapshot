@@ -11,12 +11,12 @@ RUN apk add --no-cache \
     samba-common-tools \
     supervisor
 
-COPY ssh_config /etc/ssh/ssh_config
-COPY rsnapshot.cron /var/spool/cron/crontabs/root
-
 WORKDIR /config
 
 COPY *.conf ./
+
+RUN cp ssh.conf /etc/ssh/ssh_config
+RUN cp cron.conf /var/spool/cron/crontabs/root
 
 # set a simple samba password for the root user
 RUN echo -e "alpine\nalpine" | smbpasswd -a -s -c smb.conf root
