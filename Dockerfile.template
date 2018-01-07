@@ -11,7 +11,7 @@ RUN apk add --no-cache \
     samba-common-tools \
     supervisor
 
-COPY ssh_config /etc/ssh/ssh_config
+#COPY ssh_config /etc/ssh/ssh_config
 COPY rsnapshot.cron /var/spool/cron/crontabs/rsnapshot
 
 WORKDIR /config
