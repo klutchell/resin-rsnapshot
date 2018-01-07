@@ -71,4 +71,10 @@ do
 	echo "+${level}: ${sched}"
 done < "/etc/crontabs/root"
 
+if [ ! -f "/data/backup_smb_share.sh" ]
+then
+	cp "/usr/src/app/backup_smb_share.sh.example" "/data/backup_smb_share.sh"
+	chmod +x "/data/backup_smb_share.sh"
+fi
+
 supervisord -c /config/supervisord.conf
