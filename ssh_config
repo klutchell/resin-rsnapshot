@@ -1,3 +1,5 @@
-IdentityFile /data/.ssh/id_rsa
-StrictHostKeyChecking no
-UserKnownHostsFile /dev/null
+Host *
+    IdentityFile /data/.ssh/id_rsa
+    StrictHostKeyChecking no
+    UserKnownHostsFile /dev/null
+    
