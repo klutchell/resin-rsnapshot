@@ -25,6 +25,4 @@ WORKDIR /usr/src/app
 
 COPY /app ./
 
-ENTRYPOINT ["/bin/bash", "start.sh"]
-
-CMD ["supervisord", "-c", "/config/supervisord.conf"]
+CMD ["/bin/bash", "start.sh"]

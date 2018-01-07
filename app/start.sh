@@ -71,4 +71,4 @@ do
 	echo "+${level}: ${sched}"
 done < "/var/spool/cron/crontabs/rsnapshot"
 
-echo "ready" && exit 0
+supervisord -c /config/supervisord.conf
