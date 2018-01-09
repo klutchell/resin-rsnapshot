@@ -1,7 +1,5 @@
 FROM resin/%%RESIN_MACHINE_NAME%%-alpine:latest
 
-ENV INITSYSTEM on
-
 RUN apk add --no-cache \
     dcron \
 	rsnapshot \
