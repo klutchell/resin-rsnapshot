@@ -17,7 +17,8 @@ RUN cp ssh.conf /etc/ssh/ssh_config
 
 RUN cp cron.conf /var/spool/cron/crontabs/root
 
-RUN echo -e "alpine\nalpine" | smbpasswd -a -s -c smb.conf root
+# set a simple samba password for the root user
+RUN /bin/echo -e "resin\nresin" | smbpasswd -a -s -c /config/smb.conf root
 
 WORKDIR /usr/src/app
 

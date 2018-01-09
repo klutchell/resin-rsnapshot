@@ -1,6 +1,6 @@
 # resin-rsnapshot
 
-resin.io rsnapshot application
+[resin.io](https://resin.io/) [rsnapshot](http://rsnapshot.org/) application
 
 ## Getting Started
 
@@ -44,10 +44,6 @@ delta:	At 02:30 AM, on day 1 of the month
 
 http://rsnapshot.org/rsnapshot/docs/docbook/rest.html
 
-For samba access to the data dir go to `//<device-ip>/data`.
-
-The default credentials are `root:alpine`.
-
 ## Author
 
 Kyle Harding <kylemharding@gmail.com>
@@ -59,3 +55,4 @@ _tbd_
 ## Acknowledgments
 
 * https://github.com/resin-io-playground/cron-example
+* https://github.com/pwntr/samba-alpine-docker
