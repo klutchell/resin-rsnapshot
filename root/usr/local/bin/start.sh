@@ -75,4 +75,4 @@ then
 	chmod +x "/data/backup_smb_share.sh"
 fi
 
-supervisord -c /config/supervisord.conf
+supervisord -c "/config/supervisord.conf"

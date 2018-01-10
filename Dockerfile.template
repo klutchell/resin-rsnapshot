@@ -9,13 +9,12 @@ RUN apk add --no-cache \
     samba-common-tools \
     supervisor
 
-WORKDIR /config
+# install root filesystem overlay
+COPY /root /
 
-COPY *.conf ./
+RUN cp /config/ssh_config /etc/ssh/ssh_config
 
-RUN cp ssh.conf /etc/ssh/ssh_config
-
-RUN cp cron.conf /var/spool/cron/crontabs/root
+RUN cp /config/cron.conf /var/spool/cron/crontabs/root
 
 # set a simple samba password for the root user
 RUN /bin/echo -e "resin\nresin" | smbpasswd -a -s -c /config/smb.conf root
@@ -26,4 +25,4 @@ COPY /app ./
 
 RUN curl -sL https://raw.githubusercontent.com/rsnapshot/rsnapshot/master/utils/backup_smb_share.sh > backup_smb_share.sh.example
 
-CMD ["/bin/bash", "start.sh"]
+CMD ["/bin/bash", "/usr/local/bin/start.sh"]
