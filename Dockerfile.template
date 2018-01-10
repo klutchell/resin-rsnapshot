@@ -19,10 +19,6 @@ RUN cp /config/cron.conf /var/spool/cron/crontabs/root
 # set a simple samba password for the root user
 RUN /bin/echo -e "resin\nresin" | smbpasswd -a -s -c /config/smb.conf root
 
-WORKDIR /usr/src/app
-
-COPY /app ./
-
 RUN curl -sL https://raw.githubusercontent.com/rsnapshot/rsnapshot/master/utils/backup_smb_share.sh > backup_smb_share.sh.example
 
 CMD ["/bin/bash", "/usr/local/bin/start.sh"]
