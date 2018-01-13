@@ -1,33 +1,27 @@
 #!/bin/bash
 
-readonly ssh_config_dir="/data/.ssh"
-readonly rsnapshot_conf_file="/data/rsnapshot.conf"
-
 # replace one or more spaces with a single tab
 spaces_to_tabs()	{ echo "${1}" | sed 's| \+|\t|g' ; }
 
-# create ssh config dir if it does not exist
-mkdir -p "${ssh_config_dir}" 2>/dev/null || true
+# create ssh dir if it does not exist
+[ -d "/data/.ssh" ] ||
+	mkdir -p "/data/.ssh"
 
-# set permissions on ssh config dir
-chmod -R 700 "${ssh_config_dir}"
+# touch authorized_keys if it does not exist
+[ -f "/data/.ssh/authorized_keys" ] ||
+	touch "/data/.ssh/authorized_keys"
 
-# generate ssh key if one does not exist
-if [ ! -f "${ssh_config_dir}/id_rsa" ]
-then
-	echo "generating ssh key..."
-	ssh-keygen -q -t "rsa" -N '' -f "${ssh_config_dir}/id_rsa"
-fi
+# set permissions on ssh dir
+chown -R root:root "/data/.ssh"
+chmod -R 700 "/data/.ssh"
 
-# print the command to add this public key to remote hosts
-echo "reading ssh key..."
-echo "run this command on remote hosts:"
-echo "echo '$(cat "${ssh_config_dir}/id_rsa.pub")' >> ~/.ssh/authorized_keys"
+# generate host keys
+/usr/bin/ssh-keygen -A
 
 rsnapshot_conf_required=false
 
 # reconfigure rsnapshot if config does not exist or is not sane
-/usr/bin/rsnapshot -c "${rsnapshot_conf_file}" configtest &>/dev/null || rsnapshot_conf_required=true
+/usr/bin/rsnapshot -c "/data/rsnapshot.conf" configtest &>/dev/null || rsnapshot_conf_required=true
 
 # reconfigure rsnapshot if any variables starting with RSNAPSHOT_CONF_ are set
 for var in $(compgen -A variable | grep "^RSNAPSHOT_CONF_")
@@ -39,7 +33,7 @@ done
 if [ "${rsnapshot_conf_required}" == true ]
 then
 	echo "installing rsnapshot.conf..."
-	cp -a "/etc/rsnapshot.conf" "${rsnapshot_conf_file}"
+	cp -a "/etc/rsnapshot.conf" "/data/rsnapshot.conf"
 
 	for var in $(compgen -A variable | grep "^RSNAPSHOT_CONF_")
 	do
@@ -47,14 +41,14 @@ then
 		then
 			eval "echo +\$${var}"
 			# convert spaces to tabs and append each value to the end of rsnapshot.conf
-			spaces_to_tabs "$(eval "echo \$${var}")" >> "${rsnapshot_conf_file}"
+			spaces_to_tabs "$(eval "echo \$${var}")" >> "/data/rsnapshot.conf"
 		fi
 	done
 fi
 
 # test rsnapshot configuration syntax
 echo "checking rsnapshot.conf..."
-/usr/bin/rsnapshot -c "${rsnapshot_conf_file}" configtest || exit 1
+/usr/bin/rsnapshot -c "/data/rsnapshot.conf" configtest || exit 1
 
 # print schedule in human readable format
 echo "checking cron..."
@@ -69,4 +63,5 @@ do
 	echo "+${cmd} @ ${sched}"
 done
 
+# start services
 supervisord -c "/etc/supervisord.conf"
