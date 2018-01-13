@@ -53,7 +53,7 @@ echo "checking rsnapshot.conf..."
 # print schedule in human readable format
 echo "checking cron..."
 # skip comment lines and whitespace lines
-grep -v '^\s*#' "/var/spool/cron/crontabs/root" | grep -v '^\s*$' | while IFS=$'\n' read -r line
+grep -v '^\s*#' "/etc/crontabs/root" | grep -v '^\s*$' | while IFS=$'\n' read -r line
 do
 	cmd="$(echo "${line}" | awk '{$1=$2=$3=$4=$5=""; print $0}' | sed -e 's/^[ \t]*//')"
 	exp="$(echo "${line}" | awk '{print $1"+"$2"+"$3"+"$4"+"$5}')"
