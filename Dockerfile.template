@@ -1,10 +1,11 @@
 FROM resin/%%RESIN_MACHINE_NAME%%-alpine:latest
 
+# install curl, cron, ssh, rsnapshot, samba, supervisord
 RUN apk add --no-cache \
+    curl \
     dcron \
 	rsnapshot \
-	openssh-client \
-	curl \
+	openssh \
 	samba \
     samba-common-tools \
     supervisor
@@ -12,13 +13,11 @@ RUN apk add --no-cache \
 # install root filesystem overlay
 COPY /root /
 
-RUN cp /config/ssh_config /etc/ssh/ssh_config
-
-RUN cp /config/cron.conf /var/spool/cron/crontabs/root
-
 # set a simple samba password for the root user
-RUN /bin/echo -e "resin\nresin" | smbpasswd -a -s -c /config/smb.conf root
+RUN /bin/echo -e "resin\nresin" | smbpasswd -a -s -c "/etc/samba/smb.conf" root
 
-RUN curl -sL https://raw.githubusercontent.com/rsnapshot/rsnapshot/master/utils/backup_smb_share.sh > backup_smb_share.sh.example
+# install rsub (rmate) for remote ide
+RUN curl -sL "https://raw.github.com/aurora/rmate/master/rmate" > "/usr/local/bin/rsub" \
+    && chmod +x /usr/local/bin/rsub
 
 CMD ["/bin/bash", "/usr/local/bin/start.sh"]

@@ -39,7 +39,7 @@ done
 if [ "${rsnapshot_conf_required}" == true ]
 then
 	echo "installing rsnapshot.conf..."
-	cp -a "/config/rsnapshot.conf" "${rsnapshot_conf_file}"
+	cp -a "/etc/rsnapshot.conf" "${rsnapshot_conf_file}"
 
 	for var in $(compgen -A variable | grep "^RSNAPSHOT_CONF_")
 	do
@@ -69,10 +69,4 @@ do
 	echo "+${cmd} @ ${sched}"
 done
 
-if [ ! -f "/data/backup_smb_share.sh" ]
-then
-	cp "/usr/src/app/backup_smb_share.sh.example" "/data/backup_smb_share.sh"
-	chmod +x "/data/backup_smb_share.sh"
-fi
-
-supervisord -c "/config/supervisord.conf"
+supervisord -c "/etc/supervisord.conf"
