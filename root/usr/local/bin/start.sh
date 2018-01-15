@@ -51,11 +51,11 @@ then
 fi
 
 # test rsnapshot configuration syntax
-echo "checking rsnapshot.conf..."
+echo "checking /data/rsnapshot.conf..."
 /usr/bin/rsnapshot -c "/data/rsnapshot.conf" configtest || exit 1
 
 # print schedule in human readable format
-echo "checking cron..."
+echo "checking /etc/crontabs/root..."
 # skip comment lines and whitespace lines
 grep -v '^\s*#' "/etc/crontabs/root" | grep -v '^\s*$' | while IFS=$'\n' read -r line
 do
