@@ -4,12 +4,16 @@
 spaces_to_tabs()	{ echo "${1}" | sed 's| \+|\t|g' ; }
 
 # create ssh dir if it does not exist
-[ -d "/data/.ssh" ] ||
+if [ ! -d "/data/.ssh" ]
+then
 	mkdir -p "/data/.ssh"
+fi
 
-# touch authorized_keys if it does not exist
-[ -f "/data/.ssh/authorized_keys" ] ||
-	touch "/data/.ssh/authorized_keys"
+# generate ssh key if one does not exist
+if [ ! -f "/data/.ssh/id_rsa" ]
+then
+	ssh-keygen -q -t "rsa" -N '' -f "/data/.ssh/id_rsa" -C "$(id -un)@$(hostname) $(date)"
+fi
 
 # set permissions on ssh dir
 chown -R root:root "/data/.ssh"
@@ -64,4 +68,4 @@ do
 done
 
 # start services
-supervisord -c "/etc/supervisord.conf"
+# supervisord -c "/etc/supervisord.conf"

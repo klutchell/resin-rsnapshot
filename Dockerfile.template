@@ -1,11 +1,14 @@
 FROM resin/%%RESIN_MACHINE_NAME%%-alpine:latest
 
+# enable container init system.
+ENV INITSYSTEM on
+
 # install curl, cron, ssh, rsnapshot, samba, supervisord
 RUN apk add --no-cache \
     curl \
     dcron \
 	rsnapshot \
-	openssh \
+	openssh-client \
 	samba \
     samba-common-tools \
     supervisor
@@ -16,8 +19,7 @@ COPY /root /
 # set a simple samba password for the root user
 RUN /bin/echo -e "resin\nresin" | smbpasswd -a -s -c "/etc/samba/smb.conf" root
 
-# install rsub (rmate) for remote ide
-RUN curl -sL "https://raw.github.com/aurora/rmate/master/rmate" > "/usr/local/bin/rsub" \
-    && chmod +x /usr/local/bin/rsub
+rc-update add samba
+rc-update add dcron
 
 CMD ["/bin/bash", "/usr/local/bin/start.sh"]
