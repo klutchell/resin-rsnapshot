@@ -15,6 +15,9 @@ RUN apk add --no-cache \
 # install root filesystem overlay
 COPY /root /
 
+# set permissions on ssh dir
+RUN chown -R root:root /root/.ssh && chmod -R 700 /root/.ssh
+
 # set a simple samba password for the root user
 RUN /bin/echo -e "resin\nresin" | smbpasswd -a -s -c "/etc/samba/smb.conf" root
 
