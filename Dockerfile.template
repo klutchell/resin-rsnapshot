@@ -19,7 +19,6 @@ COPY /root /
 # set a simple samba password for the root user
 RUN /bin/echo -e "resin\nresin" | smbpasswd -a -s -c "/etc/samba/smb.conf" root
 
-rc-update add samba
-rc-update add dcron
+RUN  rc-update add samba dcron
 
 CMD ["/bin/bash", "/usr/local/bin/start.sh"]
