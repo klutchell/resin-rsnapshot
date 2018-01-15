@@ -10,8 +10,7 @@ RUN apk add --no-cache \
 	rsnapshot \
 	openssh-client \
 	samba \
-    samba-common-tools \
-    supervisor
+    samba-common-tools
 
 # install root filesystem overlay
 COPY /root /
@@ -19,6 +18,7 @@ COPY /root /
 # set a simple samba password for the root user
 RUN /bin/echo -e "resin\nresin" | smbpasswd -a -s -c "/etc/samba/smb.conf" root
 
-RUN  rc-update add samba dcron
+RUN rc-update add samba
+RUN rc-update add dcron
 
 CMD ["/bin/bash", "/usr/local/bin/start.sh"]
