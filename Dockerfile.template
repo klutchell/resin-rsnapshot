@@ -21,13 +21,8 @@ RUN chown -R root:root /root/.ssh && chmod -R 700 /root/.ssh
 # set a simple samba password for the root user
 RUN /bin/echo -e "resin\nresin" | smbpasswd -a -s -c "/etc/samba/smb.conf" root
 
-# RUN mkdir -p "/mnt/ext4-5t" \
-#     && echo "LABEL=ext4-5t /mnt/ext4-5t ext4 rw,relatime,discard,data=ordered 0 2" >> /etc/fstab
-
-RUN mkdir -p "/mnt/ext4-128g" \
-    && echo "LABEL=ext4-128g /mnt/ext4-128g ext4 rw,relatime,discard,data=ordered 0 2" >> /etc/fstab
-
-RUN rc-update add samba
-RUN rc-update add dcron
+# create mount point for usb storage
+RUN mkdir -p "/usbstorage" \
+    && echo "LABEL=ext4-128g /usbstorage ext4 rw,relatime,discard,data=ordered 0 2" >> /etc/fstab
 
 CMD ["/bin/bash", "/usr/local/bin/start.sh"]

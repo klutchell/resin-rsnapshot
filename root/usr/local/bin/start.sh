@@ -67,5 +67,7 @@ do
 	echo "+${cmd} @ ${sched}"
 done
 
-# start some services manually
+# start services manually
 rc-service localmount start
+rc-service samba start
+rc-service dcron start
