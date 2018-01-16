@@ -67,5 +67,5 @@ do
 	echo "+${cmd} @ ${sched}"
 done
 
-# start services
-# supervisord -c "/etc/supervisord.conf"
+# start some services manually
+rc-service localmount start
