@@ -31,7 +31,7 @@ fi
 chown -R root:root "${HOME}/.ssh"
 chmod -R 700 "${HOME}/.ssh"
 
-# mount /dev/sda1 if it exists
+# mount device with LABEL="snapshot" if it exists
 part_label="snapshots"
 dev_path="$(blkid | grep "LABEL=\"$part_label\"" | cut -d: -f1)"
 mount_path="/snapshots"
