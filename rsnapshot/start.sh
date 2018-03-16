@@ -32,15 +32,18 @@ chown -R root:root "${HOME}/.ssh"
 chmod -R 700 "${HOME}/.ssh"
 
 # mount /dev/sda1 if it exists
-if [ -e /dev/sda1 ]
+part_label="snapshots"
+if blkid | grep -q "$part_label"
 then
-	echo "mounting /dev/sda1 onto /snapshots ..."
+	echo "found 'snapshots' device ..."
+	blkid | grep "$part_label"
+	echo "mounting onto /snapshots ..."
 	mkdir /snapshots 2>/dev/null || true
-	mount /dev/sda1 /snapshots
+	mount -L "$part_label" /snapshots
 else
 	# rsnapshot configtest will fail since /snapshots does not exist
 	# and no_create_root is currently enabled
-	echo "no usb storage partitions found!"
+	echo "no devices with label 'snapshots' found!"
 fi
 
 # append RSNAPSHOT_CONF_* environment variables to rsnapshot.conf
