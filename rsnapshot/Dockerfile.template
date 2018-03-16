@@ -14,4 +14,7 @@ COPY . ./
 RUN apk add --no-cache tzdata
 ENV TZ=America/Toronto
 
+# create snapshots mount point
+RUN mkdir /snapshots
+
 CMD ["/bin/bash", "start.sh"]

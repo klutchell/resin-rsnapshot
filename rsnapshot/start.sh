@@ -33,17 +33,14 @@ chmod -R 700 "${HOME}/.ssh"
 
 # mount /dev/sda1 if it exists
 part_label="snapshots"
-if blkid | grep -q "LABEL=\"$part_label\""
+dev_path="$(blkid | grep "LABEL=\"$part_label\"" | cut -d: -f1)"
+mount_path="/snapshots"
+if [ -n "$dev_path" ]
 then
-	echo "found 'snapshots' device ..."
-	blkid | grep "LABEL=\"$part_label\""
-	echo "mounting onto /snapshots ..."
-	mkdir /snapshots 2>/dev/null || true
-	mount -L "$part_label" /snapshots
+	echo "mounting $dev_path onto $mount_path ..."
+	mount "$dev_path" "$mount_path"
 else
-	# rsnapshot configtest will fail since /snapshots does not exist
-	# and no_create_root is currently enabled
-	echo "no devices with label 'snapshots' found!"
+	echo "no devices with label '$part_label' found!"
 	exit 1
 fi
 
