@@ -2,6 +2,7 @@ FROM resin/%%RESIN_MACHINE_NAME%%-alpine:latest
 
 # install cron, rsnapshot, openssh-client
 RUN apk add --no-cache \
+	curl \
 	dcron \
 	rsnapshot \
 	openssh-client
