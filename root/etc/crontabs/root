@@ -1,5 +1,0 @@
-
-0 */4  * * *   /usr/bin/rsnapshot -c /data/rsnapshot.conf alpha 2>&1 >/proc/1/fd/1
-30 3   * * *   /usr/bin/rsnapshot -c /data/rsnapshot.conf beta 2>&1 >/proc/1/fd/1
-0  3   * * 1   /usr/bin/rsnapshot -c /data/rsnapshot.conf gamma 2>&1 >/proc/1/fd/1
-30 2   1 * *   /usr/bin/rsnapshot -c /data/rsnapshot.conf delta 2>&1 >/proc/1/fd/1
