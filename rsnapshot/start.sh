@@ -35,7 +35,7 @@ chmod -R 700 "${HOME}/.ssh"
 if [ -e /dev/sda1 ]
 then
 	echo "mounting /dev/sda1 onto /snapshots ..."
-	mkdir /snapshots
+	mkdir /snapshots 2>/dev/null || true
 	mount /dev/sda1 /snapshots
 else
 	# rsnapshot configtest will fail since /snapshots does not exist

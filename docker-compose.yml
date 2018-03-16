@@ -6,6 +6,4 @@ services:
     build: ./rsnapshot
     volumes: 
       - 'ssh-data:/root/.ssh'
-    devices:
-      - "/dev/sda:/dev/sda"
-      - "/dev/sda1:/dev/sda1"
+    privileged: true
