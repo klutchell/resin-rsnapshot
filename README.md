@@ -17,9 +17,9 @@ git push resin master
 ## Usage
 
 ### Storage
-A usb storage partition is expected at `/dev/sda1`. If found, it will be mounted
-at startup to `/snapshots`. Otherwise rsnapshot will not run in order to
-avoid filling the SD card.
+A usb storage partition is expected with `LABEL="snapshots"`.
+If found, it will be mounted at startup to `/snapshots`.
+Otherwise the service will exit in order to avoid filling the SD card.
 
 ### Backups
 There are no backup points enabled by default.
