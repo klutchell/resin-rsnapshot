@@ -33,10 +33,10 @@ chmod -R 700 "${HOME}/.ssh"
 
 # mount /dev/sda1 if it exists
 part_label="snapshots"
-if blkid | grep -q "$part_label"
+if blkid | grep -q "LABEL=$part_label"
 then
 	echo "found 'snapshots' device ..."
-	blkid | grep "$part_label"
+	blkid | grep "LABEL=$part_label"
 	echo "mounting onto /snapshots ..."
 	mkdir /snapshots 2>/dev/null || true
 	mount -L "$part_label" /snapshots
