@@ -51,7 +51,7 @@ for var in $(compgen -A variable | grep "^RSNAPSHOT_CONF_")
 do
 	if [ -n "$(eval "echo \$${var}")" ]
 	then
-		eval "echo +\$${var}"
+		eval "echo + \$${var}"
 		spaces_to_tabs "$(eval "echo \$${var}")" >> "${rsnapshot_config}"
 	fi
 done
@@ -62,11 +62,12 @@ echo "checking rsnapshot config ..."
 
 # print cron schedule in human readable format
 echo "reading rsnapshot schedule ..."
+# skip whitespace and comments
 grep -v '^\s*#' "/etc/crontabs/root" | grep -v '^\s*$' | while IFS=$'\n' read -r line
 do
 	exp="$(echo "${line}" | awk '{print $1"+"$2"+"$3"+"$4"+"$5}')"
-	sched="$(curl -s "https://cronexpressiondescriptor.azurewebsites.net/api/descriptor/?expression=${exp}&locale=en-US" | awk -F '"' '{print $4}')"
-	echo "+${sched}"
+	sched="$(curl -s --retry 3 "https://cronexpressiondescriptor.azurewebsites.net/api/descriptor/?expression=${exp}&locale=en-US" | awk -F '"' '{print $4}')"
+	echo "+ ${sched:-$exp}"
 done
 
 # start cron in foreground
