@@ -1,9 +1,0 @@
-version: '2'
-volumes: 
-  ssh-data:
-services:
-  rsnapshot:
-    build: ./rsnapshot
-    volumes: 
-      - 'ssh-data:/root/.ssh'
-    privileged: true
