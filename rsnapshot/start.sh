@@ -3,34 +3,6 @@
 # replace one or more spaces with a single tab
 spaces_to_tabs()	{ echo "${1}" | sed 's| \+|\t|g' ; }
 
-# create ssh dir if it doesn't exist
-if [ ! -d "${HOME}/.ssh" ]
-then
-	mkdir -p "${HOME}/.ssh"
-fi
-
-# generate ssh key to connect to other authenticated systems
-if [ ! -f "${HOME}/.ssh/id_rsa" ]
-then
-	ssh-keygen -q -t "rsa" -N '' -f "${HOME}/.ssh/id_rsa" -C "$(id -un)@$(hostname) $(date)"
-fi
-
-# generate ssh config file to prevent caching known hosts
-if [ ! -f "${HOME}/.ssh/config" ]
-then
-	cat <<EOF >> "${HOME}/.ssh/config"
-
-Host *
-	StrictHostKeyChecking no
-	UserKnownHostsFile /dev/null"
-
-EOF
-fi
-
-# set permissions on ssh dir
-chown -R root:root "${HOME}/.ssh"
-chmod -R 700 "${HOME}/.ssh"
-
 # mount device with LABEL="snapshot" if it exists
 part_label="snapshots"
 dev_path="$(blkid | grep "LABEL=\"$part_label\"" | cut -d: -f1)"

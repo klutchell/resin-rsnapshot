@@ -1,0 +1,21 @@
+version: '2.1'
+
+volumes:
+
+  ssh-data:
+
+services:
+
+  rsnapshot:
+    build: ./rsnapshot
+    privileged: true
+    volumes:
+      - 'ssh-data:/root/.ssh'
+
+  ssh:
+    build: ./ssh
+    ports:
+      - '22:22'
+    volumes:
+      - 'ssh-data:/root/.ssh'
+
