@@ -14,6 +14,8 @@ RUN apk add --no-cache \
 # create snapshots mount point
 RUN mkdir /snapshots
 
+COPY etc /etc
+
 COPY start.sh /usr/bin/start.sh
 
 CMD [ "/usr/bin/start.sh" ]
