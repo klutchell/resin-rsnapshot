@@ -17,5 +17,5 @@ RUN sed -i \
 
 COPY start.sh /usr/bin/start.sh
 
-CMD [ "/bin/sh", "-c", "/usr/bin/start.sh" ]
+CMD [ "/usr/bin/start.sh" ]
 

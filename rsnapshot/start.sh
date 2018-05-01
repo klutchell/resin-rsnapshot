@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # replace one or more spaces with a single tab
 spaces_to_tabs()	{ echo "${1}" | sed 's| \+|\t|g' ; }
