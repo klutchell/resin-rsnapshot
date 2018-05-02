@@ -3,7 +3,7 @@ FROM resin/raspberrypi3-alpine
 LABEL maintainer="kylemharding@gmail.com"
 
 # allow building on x86
-RUN [ "cross-build-start"]; exit 0
+# RUN [ "cross-build-start" ]
 
 # install cron, rsnapshot, openssh-client
 RUN apk add --no-cache \
@@ -26,5 +26,5 @@ COPY start.sh /usr/bin/start.sh
 CMD [ "/usr/bin/start.sh" ]
 
 # end cross build
-RUN [ "cross-build-end"]; exit 0
+# RUN [ "cross-build-end" ]
 
