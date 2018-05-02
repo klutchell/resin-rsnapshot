@@ -27,7 +27,7 @@ services:
       - 'ssh-data:/root/.ssh'
 
   ssh:
-    build: ./ssh
+    image: klutchell/resin-ssh
     ports:
       - '22:22'
     volumes:
@@ -36,8 +36,8 @@ services:
 
 ## Usage
 
-* [ssh](ssh/README.md)
 * [rsnapshot](rsnapshot/README.md)
+* [ssh](https://github.com/klutchell/resin-ssh)
 
 ## Author
 

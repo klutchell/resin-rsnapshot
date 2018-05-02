@@ -13,7 +13,7 @@ services:
       - 'ssh-data:/root/.ssh'
 
   ssh:
-    build: ./ssh
+    image: klutchell/resin-ssh
     ports:
       - '22:22'
     volumes:
