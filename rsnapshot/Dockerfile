@@ -3,7 +3,9 @@ FROM resin/raspberrypi3-alpine
 LABEL maintainer="kylemharding@gmail.com"
 
 # allow building on x86
-RUN if [ uname -m | grep -vq 'arm' ]; then cross-build-start; fi
+RUN if [ -z "$(uname -m | grep 'arm')" ] ; \
+	then cross-build-start ; \
+	fi
 
 # install cron, rsnapshot, openssh-client
 RUN apk add --no-cache \
@@ -26,5 +28,7 @@ COPY start.sh /usr/bin/start.sh
 CMD [ "/usr/bin/start.sh" ]
 
 # end cross build
-RUN if [ uname -m | grep -vq 'arm' ]; then cross-build-end; fi
+RUN if [ -z "$(uname -m | grep 'arm')" ] ; \
+	then cross-build-end ; \
+	fi
 
