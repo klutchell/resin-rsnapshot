@@ -18,7 +18,7 @@ COPY . /usr/src/app/
 WORKDIR /usr/src/app
 
 # install crontab
-crontab crontab.conf
+RUN crontab crontab.conf
 
 # run start script on boot
 CMD ["/bin/bash", "start.sh"]
