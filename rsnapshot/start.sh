@@ -22,7 +22,7 @@ fi
 
 # append RSNAPSHOT_CONF_* environment variables to rsnapshot.conf
 echo "updating rsnapshot config ..."
-rsnapshot_config="/etc/rsnapshot.conf"
+rsnapshot_config="/usr/src/app/rsnapshot.conf"
 for var in $(compgen -A variable | grep "^RSNAPSHOT_CONF_")
 do
 	if [ -n "$(eval "echo \$${var}")" ]
