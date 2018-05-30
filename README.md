@@ -40,7 +40,7 @@ RSNAPSHOT_CONF_ex2="exclude media/tv"
 _avoid spaces except as a delimiter!_
 
 3. use the `rsnapshot` [resin web terminal](https://docs.resin.io/learn/manage/ssh-access/#using-the-dashboard-web-terminal)
-to adjust the schedules in `/etc/crontabs/root`:
+to adjust the schedules with `crontab -e`:
 ```
 # defaults:
 alpha:	Every 4 hours
