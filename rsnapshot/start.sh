@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# set timezone with TZ
+# eg. TZ=America/Toronto
+ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
 # replace one or more spaces with a single tab
 spaces_to_tabs()	{ echo "${1}" | sed 's| \+|\t|g' ; }
 
@@ -35,12 +39,10 @@ echo "checking rsnapshot config ..."
 # print cron schedule in human readable format
 echo "reading rsnapshot schedule ..."
 # skip whitespace and comments
-grep -v '^\s*#' "/etc/crontabs/root" | grep -v '^\s*$' | while IFS=$'\n' read -r line
+crontab -l | grep -v '^\s*#' | grep -v '^\s*$' | while IFS=$'\n' read -r line
 do
 	exp="$(echo "${line}" | awk '{print $1"+"$2"+"$3"+"$4"+"$5}')"
 	sched="$(curl -s --retry 3 "https://cronexpressiondescriptor.azurewebsites.net/api/descriptor/?expression=${exp}&locale=en-US" | awk -F '"' '{print $4}')"
 	echo "+ ${sched:-$exp}"
 done
 
-# start cron in foreground
-/usr/sbin/crond -f

@@ -1,0 +1,25 @@
+FROM resin/%%RESIN_MACHINE_NAME%%-debian
+
+LABEL maintainer="kylemharding@gmail.com"
+
+ENV INITSYSTEM on
+
+RUN apt-get update && apt-get install -yq --no-install-recommends \
+	cron \
+	curl \
+	openssh-client \
+	rsnapshot \
+	&& apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# create snapshots mount point
+RUN mkdir /snapshots
+
+COPY . /usr/src/app/
+WORKDIR /usr/src/app
+
+# install crontab
+crontab crontab.conf
+
+# run start script on boot
+CMD ["/bin/bash", "start.sh"]
+
