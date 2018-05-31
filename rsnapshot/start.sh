@@ -22,13 +22,21 @@ fi
 
 # append RSNAPSHOT_CONF_* environment variables to rsnapshot.conf
 echo "updating rsnapshot config ..."
-for var in $(printenv | grep "^RSNAPSHOT_CONF_")
+while IFS=; read var
 do
 	if [ -n "$(eval "echo \$${var}")" ]
 	then
 		eval "echo \$${var}" | sed -r 's/\s+/\t/g' | tee "${rsnapshot_config}"
 	fi
-done
+done <<< "$(printenv | grep "^RSNAPSHOT_CONF_")"
+
+# for var in $(printenv | grep "^RSNAPSHOT_CONF_")
+# do
+# 	if [ -n "$(eval "echo \$${var}")" ]
+# 	then
+# 		eval "echo \$${var}" | sed -r 's/\s+/\t/g' | tee "${rsnapshot_config}"
+# 	fi
+# done
 
 # test rsnapshot config syntax
 echo "checking rsnapshot config ..."
