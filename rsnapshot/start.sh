@@ -26,7 +26,7 @@ printenv | grep "^RSNAPSHOT_CONF_" | while IFS=; read -r var
 do
 	if [ -n "$(eval "echo \$${var}")" ]
 	then
-		eval "echo \$${var}" | sed -r 's/\s+/\t/g' | tee "${rsnapshot_config}"
+		eval "echo \$${var}" | sed -r 's/\s+/\t/g' | tee -a "${rsnapshot_config}"
 	fi
 done
 
