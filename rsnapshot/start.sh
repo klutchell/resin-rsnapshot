@@ -7,16 +7,16 @@
 rsnapshot_config="/usr/src/app/rsnapshot.conf"
 crontab_schedule="/usr/src/app/crontabs"
 
-# mount device with LABEL="snapshot" if it exists
 part_label="snapshots"
-dev_path="$(blkid | grep "LABEL=\"$part_label\"" | cut -d: -f1)"
-mount_path="/snapshots"
-if [ -n "$dev_path" ]
+dev_path="$(blkid | grep "LABEL=\"${part_label}\"" | cut -d: -f1)"
+
+# mount device with LABEL="snapshot" if it exists
+if [ -n "${dev_path}" ]
 then
-	echo "mounting $dev_path onto $mount_path ..."
-	mount "$dev_path" "$mount_path"
+	echo "mounting ${dev_path} onto ${SNAPSHOT_ROOT} ..."
+	mount "${dev_path}" "${SNAPSHOT_ROOT}"
 else
-	echo "no devices with label '$part_label' found!"
+	echo "no devices with label '${part_label}' found!"
 	exit 1
 fi
 
