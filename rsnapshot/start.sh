@@ -30,14 +30,6 @@ do
 	fi
 done
 
-# for var in $(printenv | grep "^RSNAPSHOT_CONF_")
-# do
-# 	if [ -n "$(eval "echo \$${var}")" ]
-# 	then
-# 		eval "echo \$${var}" | sed -r 's/\s+/\t/g' | tee "${rsnapshot_config}"
-# 	fi
-# done
-
 # test rsnapshot config syntax
 echo "checking rsnapshot config ..."
 /usr/bin/rsnapshot -c "${rsnapshot_config}" configtest || exit 1

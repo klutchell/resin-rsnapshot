@@ -4,7 +4,7 @@ LABEL maintainer="kylemharding@gmail.com"
 
 # ENV INITSYSTEM on
 
-ENV SNAPSHOT_ROOT /snapshots/
+ENV SNAPSHOT_ROOT /snapshots
 
 RUN apk add --no-cache \
 	curl \
@@ -17,7 +17,7 @@ COPY . /usr/src/app/
 WORKDIR /usr/src/app
 
 RUN sed -r \
-	-e "s|^#?(snapshot_root\s+.+)$|snapshot_root\t$SNAPSHOT_ROOT|" \
+	-e "s|^#?(snapshot_root\s+.+)$|snapshot_root\t$SNAPSHOT_ROOT/|" \
 	-e "s/^#?(no_create_root\s+.+)$/no_create_root\t1/" \
 	-e "s/^#?(cmd_ssh\s+.+)$/\1/" \
 	-e "s/^#?(retain\s+(alpha|hourly)\s+.+)$/retain\talpha\t6/" \
