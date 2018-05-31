@@ -28,7 +28,7 @@ do
 	then
 		eval "echo \$${var}" | sed -r 's/\s+/\t/g' | tee "${rsnapshot_config}"
 	fi
-done <<< "$(printenv | grep "^RSNAPSHOT_CONF_")"
+done < <(printenv | grep "^RSNAPSHOT_CONF_")
 
 # for var in $(printenv | grep "^RSNAPSHOT_CONF_")
 # do
