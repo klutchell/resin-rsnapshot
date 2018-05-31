@@ -34,5 +34,5 @@ RUN rm /etc/crontabs/root \
 VOLUME $SNAPSHOT_ROOT
 
 # run start script on boot
-CMD ["/bin/bash", "start.sh"]
+CMD ["/bin/ash", "start.sh"]
 
