@@ -4,6 +4,8 @@ LABEL maintainer="kylemharding@gmail.com"
 
 ENV INITSYSTEM on
 
+ENV SNAPSHOT_ROOT /snapshots/
+
 RUN apt-get update && apt-get install -yq --no-install-recommends \
 	cron \
 	curl \
@@ -11,14 +13,25 @@ RUN apt-get update && apt-get install -yq --no-install-recommends \
 	rsnapshot \
 	&& apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# create snapshots mount point
-RUN mkdir /snapshots
-
 COPY . /usr/src/app/
 WORKDIR /usr/src/app
 
+RUN sed -r \
+	-e "s|^#?(snapshot_root\s+.+)$|snapshot_root\t$SNAPSHOT_ROOT|" \
+	-e "s/^#?(no_create_root\s+.+)$/no_create_root\t1/" \
+	-e "s/^#?(cmd_ssh\s+.+)$/\1/" \
+	-e "s/^#?(retain\s+(alpha|hourly)\s+.+)$/retain\talpha\t6/" \
+	-e "s/^#?(retain\s+(beta|daily)\s+.+)$/retain\tbeta\t7/" \
+	-e "s/^#?(retain\s+(gamma|weekly)\s+.+)$/retain\tgamma\t4/" \
+	-e "s/^#?(retain\s+(delta|monthly)\s+.+)$/retain\tdelta\t3/" \
+	-e "s/^#?(backup\s+.+)$/#\1/" \
+	-e "s/^#?(backup_script\s+.+)$/#\1/" \
+	/etc/rsnapshot.conf > /usr/src/app/rsnapshot.conf
+
 # install crontab
 RUN crontab crontab.conf
+
+VOLUME $SNAPSHOT_ROOT
 
 # run start script on boot
 CMD ["/bin/bash", "start.sh"]
