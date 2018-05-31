@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/ash
 
 # set timezone with TZ
 # eg. TZ=America/Toronto
