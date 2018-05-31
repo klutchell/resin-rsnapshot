@@ -1,17 +1,24 @@
-FROM resin/%%RESIN_MACHINE_NAME%%-debian
+FROM armhf/alpine
 
 LABEL maintainer="kylemharding@gmail.com"
 
-ENV INITSYSTEM on
+# ENV INITSYSTEM on
 
 ENV SNAPSHOT_ROOT /snapshots/
 
-RUN apt-get update && apt-get install -yq --no-install-recommends \
-	cron \
+# RUN apt-get update && apt-get install -yq --no-install-recommends \
+# 	cron \
+# 	curl \
+# 	openssh-client \
+# 	rsnapshot \
+# 	&& apt-get clean && rm -rf /var/lib/apt/lists/*
+
+RUN apk add --no-cache \
 	curl \
-	openssh-client \
+	dcron \
 	rsnapshot \
-	&& apt-get clean && rm -rf /var/lib/apt/lists/*
+	openssh-client \
+	tzdata
 
 COPY . /usr/src/app/
 WORKDIR /usr/src/app

@@ -2,7 +2,7 @@
 
 # set timezone with TZ
 # eg. TZ=America/Toronto
-ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+# ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 # replace one or more spaces with a single tab
 spaces_to_tabs()	{ echo "${1}" | sed 's| \+|\t|g' ; }
@@ -45,4 +45,6 @@ do
 	sched="$(curl -s --retry 3 "https://cronexpressiondescriptor.azurewebsites.net/api/descriptor/?expression=${exp}&locale=en-US" | awk -F '"' '{print $4}')"
 	echo "+ ${sched:-$exp}"
 done
+
+echo "ready."
 
