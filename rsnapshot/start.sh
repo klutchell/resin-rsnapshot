@@ -5,7 +5,7 @@
 # ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 rsnapshot_config="/usr/src/app/rsnapshot.conf"
-crontab_schedule="/usr/src/app/crontabs"
+crontab_schedule="/usr/src/app/crontab"
 
 part_label="snapshots"
 dev_path="$(blkid | grep "LABEL=\"${part_label}\"" | cut -d: -f1)"
