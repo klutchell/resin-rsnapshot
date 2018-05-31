@@ -6,13 +6,6 @@ LABEL maintainer="kylemharding@gmail.com"
 
 ENV SNAPSHOT_ROOT /snapshots/
 
-# RUN apt-get update && apt-get install -yq --no-install-recommends \
-# 	cron \
-# 	curl \
-# 	openssh-client \
-# 	rsnapshot \
-# 	&& apt-get clean && rm -rf /var/lib/apt/lists/*
-
 RUN apk add --no-cache \
 	curl \
 	dcron \
@@ -35,7 +28,8 @@ RUN sed -r \
 	-e "s/^#?(backup_script\s+.+)$/#\1/" \
 	/etc/rsnapshot.conf.default > /usr/src/app/rsnapshot.conf
 
-RUN ln -s /usr/src/app/crontab /etc/crontabs/root
+RUN rm /etc/crontabs/root \
+	&& ln -s /usr/src/app/crontab /etc/crontabs/root
 
 VOLUME $SNAPSHOT_ROOT
 
