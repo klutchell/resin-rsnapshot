@@ -22,7 +22,7 @@ fi
 
 # append RSNAPSHOT_CONF_* environment variables to rsnapshot.conf
 echo "updating rsnapshot config ..."
-printenv | grep "^RSNAPSHOT_CONF_" | while IFS=; read -r var
+printenv | grep "^RSNAPSHOT_CONF_" | while IFS=\n read -r var
 do
 	if [ -n "$(eval "echo \$${var}")" ]
 	then
