@@ -33,7 +33,7 @@ RUN sed -r \
 	-e "s/^#?(retain\s+(delta|monthly)\s+.+)$/retain\tdelta\t3/" \
 	-e "s/^#?(backup\s+.+)$/#\1/" \
 	-e "s/^#?(backup_script\s+.+)$/#\1/" \
-	/etc/rsnapshot.conf > /usr/src/app/rsnapshot.conf
+	/etc/rsnapshot.conf.default > /usr/src/app/rsnapshot.conf
 
 RUN ln -s /usr/src/app/crontab /etc/crontabs/root
 
