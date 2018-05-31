@@ -8,9 +8,9 @@ services:
 
   rsnapshot:
     build: ./rsnapshot
-    # privileged: true
-    devices:
-      - "/dev/sda:/dev/sda"
+    privileged: true
+    # devices:
+    #   - "/dev/sda:/dev/sda"
     volumes:
       - 'ssh-data:/root/.ssh'
 
