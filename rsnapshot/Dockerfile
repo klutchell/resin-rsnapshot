@@ -35,8 +35,7 @@ RUN sed -r \
 	-e "s/^#?(backup_script\s+.+)$/#\1/" \
 	/etc/rsnapshot.conf > /usr/src/app/rsnapshot.conf
 
-# install crontab
-RUN crontab crontab.conf
+RUN ln -s /usr/src/app/crontab /etc/crontabs/root
 
 VOLUME $SNAPSHOT_ROOT
 

@@ -4,6 +4,9 @@
 # eg. TZ=America/Toronto
 # ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
+rsnapshot_config="/usr/src/app/rsnapshot.conf"
+crontab_schedule="/usr/src/app/crontabs"
+
 # replace one or more spaces with a single tab
 spaces_to_tabs()	{ echo "${1}" | sed 's| \+|\t|g' ; }
 
@@ -22,7 +25,6 @@ fi
 
 # append RSNAPSHOT_CONF_* environment variables to rsnapshot.conf
 echo "updating rsnapshot config ..."
-rsnapshot_config="/usr/src/app/rsnapshot.conf"
 for var in $(compgen -A variable | grep "^RSNAPSHOT_CONF_")
 do
 	if [ -n "$(eval "echo \$${var}")" ]
@@ -39,7 +41,7 @@ echo "checking rsnapshot config ..."
 # print cron schedule in human readable format
 echo "reading rsnapshot schedule ..."
 # skip whitespace and comments
-crontab -l | grep -v '^\s*#' | grep -v '^\s*$' | while IFS=$'\n' read -r line
+cat "${crontab_schedule}" | grep -v '^\s*#' | grep -v '^\s*$' | while IFS=$'\n' read -r line
 do
 	exp="$(echo "${line}" | awk '{print $1"+"$2"+"$3"+"$4"+"$5}')"
 	sched="$(curl -s --retry 3 "https://cronexpressiondescriptor.azurewebsites.net/api/descriptor/?expression=${exp}&locale=en-US" | awk -F '"' '{print $4}')"
@@ -47,4 +49,7 @@ do
 done
 
 echo "ready."
+
+# start cron in foreground
+/usr/sbin/crond -f
 
