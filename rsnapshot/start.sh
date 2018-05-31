@@ -7,9 +7,6 @@
 rsnapshot_config="/usr/src/app/rsnapshot.conf"
 crontab_schedule="/usr/src/app/crontabs"
 
-# replace one or more spaces with a single tab
-spaces_to_tabs()	{ echo "${1}" | sed 's| \+|\t|g' ; }
-
 # mount device with LABEL="snapshot" if it exists
 part_label="snapshots"
 dev_path="$(blkid | grep "LABEL=\"$part_label\"" | cut -d: -f1)"
@@ -29,8 +26,7 @@ for var in $(printenv | grep "^RSNAPSHOT_CONF_")
 do
 	if [ -n "$(eval "echo \$${var}")" ]
 	then
-		eval "echo + \$${var}"
-		spaces_to_tabs "$(eval "echo \$${var}")" >> "${rsnapshot_config}"
+		eval "echo \$${var}" | sed -r 's/\s+/\t/g' | tee "${rsnapshot_config}"
 	fi
 done
 
