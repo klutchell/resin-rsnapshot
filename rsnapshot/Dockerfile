@@ -2,8 +2,6 @@ FROM armhf/alpine
 
 LABEL maintainer="kylemharding@gmail.com"
 
-# ENV INITSYSTEM on
-
 ENV SNAPSHOT_ROOT /snapshots
 
 RUN apk add --no-cache \
