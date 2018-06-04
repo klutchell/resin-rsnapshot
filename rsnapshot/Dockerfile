@@ -2,8 +2,10 @@ FROM armhf/alpine
 
 LABEL maintainer="kylemharding@gmail.com"
 
+# set snapshot root
 ENV SNAPSHOT_ROOT /usr/src/app/snapshots
 
+# install cron, ssh, and rsnapshot
 RUN apk add --no-cache \
 	curl \
 	dcron \
@@ -11,9 +13,11 @@ RUN apk add --no-cache \
 	openssh-client \
 	tzdata
 
+# copy src files
 COPY . /usr/src/app/
 WORKDIR /usr/src/app
 
+# modify default config with desired settings
 RUN sed -r \
 	-e "s|^#?(snapshot_root\s+.+)$|snapshot_root\t$SNAPSHOT_ROOT/|" \
 	-e "s/^#?(no_create_root\s+.+)$/no_create_root\t1/" \
@@ -27,9 +31,11 @@ RUN sed -r \
 	-e "s/^#?(backup_script\s+.+)$/#\1/" \
 	/etc/rsnapshot.conf.default > /usr/src/app/rsnapshot.conf
 
+# install crontab schedule with a link
 RUN rm /etc/crontabs/root \
 	&& ln -s /usr/src/app/crontab /etc/crontabs/root
 
+# create a volume in case mounting fails
 VOLUME $SNAPSHOT_ROOT
 
 # run start script on boot
