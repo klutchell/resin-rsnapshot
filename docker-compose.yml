@@ -8,9 +8,7 @@ services:
 
   rsnapshot:
     build: ./rsnapshot
-    # privileged: true
-    cap_add:
-      - SYS_ADMIN
+    privileged: true
     volumes:
       - 'ssh-data:/root/.ssh'
 
