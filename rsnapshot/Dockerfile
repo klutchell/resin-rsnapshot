@@ -2,7 +2,7 @@ FROM armhf/alpine
 
 LABEL maintainer="kylemharding@gmail.com"
 
-ENV SNAPSHOT_ROOT /snapshots
+ENV SNAPSHOT_ROOT /usr/src/app/snapshots
 
 RUN apk add --no-cache \
 	curl \
