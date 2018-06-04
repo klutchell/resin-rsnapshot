@@ -20,6 +20,7 @@ RUN sed -r \
 	-e "s|^#?(snapshot_root\s+.+)$|snapshot_root\t$SNAPSHOT_ROOT/|" \
 	-e "s/^#?(no_create_root\s+.+)$/no_create_root\t1/" \
 	-e "s/^#?(cmd_ssh\s+.+)$/\1/" \
+	-e "s/^#?(cmd_cp\s+.+)$/\1/" \
 	-e "s/^#?(retain\s+(alpha|hourly)\s+.+)$/retain\talpha\t6/" \
 	-e "s/^#?(retain\s+(beta|daily)\s+.+)$/retain\tbeta\t7/" \
 	-e "s/^#?(retain\s+(gamma|weekly)\s+.+)$/retain\tgamma\t4/" \
