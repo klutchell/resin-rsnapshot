@@ -1,9 +1,5 @@
 #!/bin/ash
 
-# set timezone with TZ
-# eg. TZ=America/Toronto
-# ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
-
 rsnapshot_config="/usr/src/app/rsnapshot.conf"
 crontab_schedule="/usr/src/app/crontab"
 
