@@ -29,7 +29,7 @@ echo "checking rsnapshot config ..."
 echo "reading rsnapshot schedule ..."
 cat "${crontab_schedule}" | grep -v '^\s*#' | grep -v '^\s*$' \
 	| awk '{print "https://cronexpressiondescriptor.azurewebsites.net/api/descriptor/?expression="$1"+"$2"+"$3"+"$4"+"$5"&locale=en-US"}' \
-	| xargs curl -s --retry 3 | sed -r 's/\{"description":"([^"]+)"\}/\1\n/g'
+	| xargs curl -s | sed -r 's/\{"description":"([^"]+)"\}/\1\n/g'
 
 # start cron in foreground
 /usr/sbin/crond -f
