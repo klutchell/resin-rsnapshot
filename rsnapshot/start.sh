@@ -18,7 +18,8 @@ fi
 
 # append RSNAPSHOT_CONF_* environment variables to rsnapshot.conf
 echo "updating rsnapshot config ..."
-printenv | grep "^RSNAPSHOT_CONF_" | sed -r 's/^[^=]+=//' | sed -r 's/\s+/\t/g' | tee -a "${rsnapshot_config}"
+printenv | grep "^RSNAPSHOT_CONF_" | sed -r 's/^[^=]+=//' \
+	| sed -r 's/\s+/\t/g' \| tee -a "${rsnapshot_config}"
 
 # test rsnapshot config syntax
 echo "checking rsnapshot config ..."
@@ -26,12 +27,9 @@ echo "checking rsnapshot config ..."
 
 # print cron schedule in human readable format
 echo "reading rsnapshot schedule ..."
-# skip whitespace and comments
 cat "${crontab_schedule}" | grep -v '^\s*#' | grep -v '^\s*$' \
 	| awk '{print "https://cronexpressiondescriptor.azurewebsites.net/api/descriptor/?expression="$1"+"$2"+"$3"+"$4"+"$5"&locale=en-US"}' \
 	| xargs curl -s --retry 3 | sed -r 's/\{"description":"([^"]+)"\}/\1\n/g'
-
-echo "ready."
 
 # start cron in foreground
 /usr/sbin/crond -f
