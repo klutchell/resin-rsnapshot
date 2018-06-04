@@ -1,4 +1,4 @@
-FROM armhf/alpine
+FROM arm32v6/alpine:3.7
 
 LABEL maintainer="kylemharding@gmail.com"
 
@@ -39,5 +39,5 @@ RUN rm /etc/crontabs/root \
 VOLUME $SNAPSHOT_ROOT
 
 # run start script on boot
-CMD ["/bin/ash", "start.sh"]
+CMD ["/bin/sh", "start.sh"]
 

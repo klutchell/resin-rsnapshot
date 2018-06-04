@@ -1,4 +1,4 @@
-#!/bin/ash
+#!/bin/sh
 
 rsnapshot_config="rsnapshot.conf"
 crontab_schedule="crontab"
