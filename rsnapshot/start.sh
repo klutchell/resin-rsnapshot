@@ -19,7 +19,7 @@ fi
 # append RSNAPSHOT_CONF_* environment variables to rsnapshot.conf
 echo "updating rsnapshot config ..."
 printenv | grep "^RSNAPSHOT_CONF_" | sed -r 's/^[^=]+=//' \
-	| sed -r 's/\s+/\t/g' \| tee -a "${rsnapshot_config}"
+	| sed -r 's/\s+/\t/g' | tee -a "${rsnapshot_config}"
 
 # test rsnapshot config syntax
 echo "checking rsnapshot config ..."
