@@ -3,7 +3,7 @@ FROM armhf/alpine
 LABEL maintainer="kylemharding@gmail.com"
 
 # set snapshot root
-ENV SNAPSHOT_ROOT /usr/src/app/snapshots
+ENV SNAPSHOT_ROOT /snapshots
 
 # install cron, ssh, and rsnapshot
 RUN apk add --no-cache \
