@@ -7,7 +7,7 @@ volumes:
 services:
 
   rsnapshot:
-    image: klutchell/rsnapshot:rpi3-latest
+    image: klutchell/rsnapshot:rpi3-753a6d8
     privileged: true
     volumes:
       - 'ssh-data:/root/.ssh'
