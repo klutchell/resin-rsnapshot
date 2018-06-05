@@ -7,13 +7,13 @@ volumes:
 services:
 
   rsnapshot:
-    build: ./rsnapshot
+    image: klutchell/rsnapshot:rpi3-latest
     privileged: true
     volumes:
       - 'ssh-data:/root/.ssh'
 
   ssh:
-    image: klutchell/resin-ssh
+    image: klutchell/ssh:rpi3-a0b03c9
     ports:
       - '22:22'
     volumes:
