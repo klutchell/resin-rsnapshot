@@ -8,10 +8,7 @@ services:
 
   rsnapshot:
     image: klutchell/rsnapshot:armhf-0.0.16
-    cap_add:
-      - SYS_ADMIN
-    devices:
-      - /dev/sda
+    privileged: true
     volumes:
       - 'ssh-data:/root/.ssh'
 
