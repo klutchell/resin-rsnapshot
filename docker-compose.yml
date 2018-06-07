@@ -14,6 +14,7 @@ services:
 
   ssh:
     image: klutchell/ssh:armhf-0.0.14
+    privileged: true
     ports:
       - '22:22'
     volumes:
