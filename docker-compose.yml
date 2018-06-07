@@ -7,13 +7,13 @@ volumes:
 services:
 
   rsnapshot:
-    image: klutchell/rsnapshot:armhf-0.0.13
+    image: klutchell/rsnapshot:armhf-0.0.14
     privileged: true
     volumes:
       - 'ssh-data:/root/.ssh'
 
   ssh:
-    image: klutchell/ssh:armhf-0.0.11
+    image: klutchell/ssh:armhf-0.0.13
     ports:
       - '22:22'
     volumes:
