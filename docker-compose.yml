@@ -7,7 +7,7 @@ volumes:
 services:
 
   rsnapshot:
-    image: klutchell/rsnapshot:armhf-0.0.21
+    image: klutchell/rsnapshot:armhf-0.0.22
     privileged: true
     volumes:
       - 'ssh-data:/root/.ssh'
